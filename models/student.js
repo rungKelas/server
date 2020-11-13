@@ -99,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       beforeValidate(teacher){
         if (teacher.role == null || teacher.role == ''){
-          teacher.role = "teacher"
+          teacher.role = "student"
         }
       }
     }
