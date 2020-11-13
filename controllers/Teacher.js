@@ -1,14 +1,12 @@
 const { Teacher, Lesson, Course, Quiz, Question } = require ('../models')
-import bcryptjs from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-
+const bcryptjs = require ('bcryptjs')
+const jwt = require ('jsonwebtoken')
 
 class TeacherController {
-
     static teacherRegister ( req, res, next ){
         const { name, address, birthdate, email, password, role } = req.body
         Teacher
-            .createQuestion({
+            .create({
                 name,
                 address,
                 birthdate,
@@ -16,15 +14,8 @@ class TeacherController {
                 password,
                 role
             })
-            .then(({ data }) => {
-                const { name, email, birthdate, address, role } = data 
-                res.status(201).json({
-                    name,
-                    email,
-                    birthdate,
-                    address,
-                    role
-                })
+            .then(teacher => {
+                res.status(201).json({ teacher })
             })
             .catch( err => {
                 next (err)
@@ -35,9 +26,12 @@ class TeacherController {
         const { email, password } = req.body
         Teacher
             .findOne({
-                email
+                where: {
+                    email
+                }
             })
-            .then(({ data }) => {
+            .then(data => {
+                console.log(data)
                 if (!data) {
                     throw {
                         error_msg: `email/password is wrong`
@@ -63,13 +57,13 @@ class TeacherController {
     }
 
     static createLesson (req, res, next){
-        const { name } = req.body
+        const { name, id } = req.body
         Lesson
             .create({
                 name,
-                teacherId: req.decodedUser.id
+                teacherId: id
             })
-            .then(({ data }) => {
+            .then( data => {
                 res.status(201).json(data)
             })
             .catch( err => {
@@ -78,15 +72,14 @@ class TeacherController {
     }
 
     static createCourse (req, res, next){
-        const { name, materialUrl } = req.body
-        const { id } = req.params
+        const { name, materialUrl, lessonId } = req.body
         Course
             .create({
                 name,
                 materialUrl,
-                lessonId: id
+                lessonId
             })
-            .then(({ data }) => {
+            .then(data => {
                 res.status(201).json(data)
             })
             .catch( err => {
@@ -95,14 +88,13 @@ class TeacherController {
     }
 
     static createQuiz (req, res, next){
-        const { title } = req.body
-        const { id } = req.params
-        Lesson
+        const { title, courseId } = req.body
+        Quiz
             .create({
                 title,
-                courseId: id
+                courseId
             })
-            .then(({ data }) => {
+            .then(data => {
                 res.status(201).json(data)
             })
             .catch( err => {
@@ -112,15 +104,14 @@ class TeacherController {
     }
 
     static createQuestion ( req, res, next ){
-        const { question, answer, choices } = req.body
-        const { id } = req.params
+        const { questions, answer, choices, quizId } = req.body
         Question.create({
-            quizId: id,
-            question,
+            quizId,
+            questions,
             choices,
             answer
         })
-        .then(({ data }) => {
+        .then(data => {
             res.status(200).json(data)
         })
         .catch( err => {
@@ -178,4 +169,4 @@ class TeacherController {
 }
 
 
-Model.export = TeacherController
+module.exports = TeacherController
