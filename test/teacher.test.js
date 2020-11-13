@@ -10,6 +10,7 @@ const teacher = {
     password: "123123abc",
     role: "teacher"
 }
+let teacherId = null
 let quizId = null
 let access_token = null
 
@@ -32,6 +33,7 @@ describe('Teacher Routes', () => {
                     id: teacher.id,
                     email: teacher.email
                 }, `secret`)
+                teacherId = teacher.id
                 return Lesson.create({
                     name: `Matematika`, 
                     teacherId: teacher.id
@@ -186,7 +188,27 @@ describe('Teacher Routes', () => {
         })
     })
 
-    describe('POST /')
+    describe('POST teacher/lesson', () => {
+        describe('success create lesson', () => {
+            test('should return status 200 and object of lesson' , (done) => {
+                request(app)
+                    .post('/teacher/lesson')
+                    .send({
+                        name: 'Bahasa Indonesia',
+                        teacherId
+                    })
+                    .end( (err, response) => {
+                        if (err) {
+                            done(err)
+                        } else {
+                            const data = response.body
+                            expect(200)
+                            expect(data).toHaveProperty("access_token")
+                        }
+                    })
+            })
+        })
+    })
 
 
 } )
