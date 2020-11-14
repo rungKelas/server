@@ -14,7 +14,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Lesson.init({
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: `lesson name cannot be empty`
+        }
+      }
+    },
     teacherId: DataTypes.INTEGER
   }, {
     sequelize,
