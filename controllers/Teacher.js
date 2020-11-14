@@ -31,10 +31,9 @@ class TeacherController {
                 }
             })
             .then(data => {
-                console.log(data)
                 if (!data) {
                     throw {
-                        error_msg: `email/password is wrong`
+                        name: `email/password is wrong`
                     }
                 } else {
                     const validatePassword = bcryptjs.compareSync(password, data.password)
@@ -46,12 +45,13 @@ class TeacherController {
                         res.status(200).json({ access_token })
                     } else {
                         throw {
-                            error_msg: `email/password is wrong`
+                            name: `email/password is wrong`
                         }
                     }
                 }
             })
             .catch( err => {
+                console.log(err.name, `ini eror controller <<<<<<<<<<<<`)
                 next(err)
             })
     }

@@ -14,7 +14,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Quiz.init({
-    title: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: `title quiz cannot be empty`
+        }
+      }
+    },
     courseId: DataTypes.STRING
   }, {
     sequelize,

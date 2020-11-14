@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1605372529310" clover="3.2.0">
-  <project timestamp="1605372529310" name="All files">
-    <metrics statements="234" coveredstatements="140" conditionals="40" coveredconditionals="14" methods="78" coveredmethods="27" elements="352" coveredelements="181" complexity="0" loc="234" ncloc="234" packages="6" files="16" classes="16"/>
+<coverage generated="1605372470820" clover="3.2.0">
+  <project timestamp="1605372470821" name="All files">
+    <metrics statements="177" coveredstatements="133" conditionals="36" coveredconditionals="16" methods="53" coveredmethods="36" elements="266" coveredelements="185" complexity="0" loc="177" ncloc="177" packages="5" files="12" classes="12"/>
     <package name="server">
       <metrics statements="14" coveredstatements="14" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
       <file name="app.js" path="C:\Users\andri\Documents\Final-Project\server\app.js">
@@ -23,9 +23,9 @@
       </file>
     </package>
     <package name="server.controllers">
-      <metrics statements="94" coveredstatements="23" conditionals="8" coveredconditionals="2" methods="50" coveredmethods="5"/>
-      <file name="Student.js" path="C:\Users\andri\Documents\Final-Project\server\controllers\Student.js">
-        <metrics statements="48" coveredstatements="19" conditionals="4" coveredconditionals="2" methods="24" coveredmethods="5"/>
+      <metrics statements="67" coveredstatements="39" conditionals="8" coveredconditionals="3" methods="33" coveredmethods="18"/>
+      <file name="Student.js" path="/home/egy/Documents/Hacktiv8/phase3/Final/server/controllers/Student.js">
+        <metrics statements="21" coveredstatements="5" conditionals="4" coveredconditionals="0" methods="7" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -75,42 +75,42 @@
         <line num="147" count="0" type="stmt"/>
         <line num="153" count="1" type="stmt"/>
       </file>
-      <file name="Teacher.js" path="C:\Users\andri\Documents\Final-Project\server\controllers\Teacher.js">
-        <metrics statements="46" coveredstatements="4" conditionals="4" coveredconditionals="0" methods="26" coveredmethods="0"/>
+      <file name="Teacher.js" path="/home/egy/Documents/Hacktiv8/phase3/Final/server/controllers/Teacher.js">
+        <metrics statements="46" coveredstatements="34" conditionals="4" coveredconditionals="3" methods="26" coveredmethods="18"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="41" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="61" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="83" count="0" type="stmt"/>
-        <line num="86" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="92" count="0" type="stmt"/>
-        <line num="98" count="0" type="stmt"/>
-        <line num="101" count="0" type="stmt"/>
-        <line num="107" count="0" type="stmt"/>
-        <line num="108" count="0" type="stmt"/>
-        <line num="115" count="0" type="stmt"/>
-        <line num="118" count="0" type="stmt"/>
+        <line num="7" count="7" type="stmt"/>
+        <line num="8" count="7" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="21" count="6" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="34" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="60" count="2" type="stmt"/>
+        <line num="61" count="2" type="stmt"/>
+        <line num="67" count="1" type="stmt"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="75" count="3" type="stmt"/>
+        <line num="76" count="3" type="stmt"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="86" count="2" type="stmt"/>
+        <line num="91" count="2" type="stmt"/>
+        <line num="92" count="2" type="stmt"/>
+        <line num="98" count="1" type="stmt"/>
+        <line num="101" count="1" type="stmt"/>
+        <line num="107" count="4" type="stmt"/>
+        <line num="108" count="4" type="stmt"/>
+        <line num="115" count="1" type="stmt"/>
+        <line num="118" count="3" type="stmt"/>
         <line num="123" count="0" type="stmt"/>
         <line num="124" count="0" type="stmt"/>
         <line num="129" count="0" type="stmt"/>
@@ -125,65 +125,34 @@
         <line num="172" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="server.helpers">
-      <metrics statements="10" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
-      <file name="generateToken.js" path="C:\Users\andri\Documents\Final-Project\server\helpers\generateToken.js">
-        <metrics statements="4" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-      </file>
-      <file name="getScore.js" path="C:\Users\andri\Documents\Final-Project\server\helpers\getScore.js">
-        <metrics statements="6" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="6" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-      </file>
-    </package>
     <package name="server.middlewares">
-      <metrics statements="33" coveredstatements="22" conditionals="11" coveredconditionals="3" methods="4" coveredmethods="3"/>
-      <file name="checkTokenRegisterStudent.js" path="C:\Users\andri\Documents\Final-Project\server\middlewares\checkTokenRegisterStudent.js">
-        <metrics statements="12" coveredstatements="10" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="2"/>
+      <metrics statements="24" coveredstatements="15" conditionals="9" coveredconditionals="3" methods="1" coveredmethods="1"/>
+      <file name="errorHandler.js" path="/home/egy/Documents/Hacktiv8/phase3/Final/server/middlewares/errorHandler.js">
+        <metrics statements="24" coveredstatements="15" conditionals="9" coveredconditionals="3" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="7" type="stmt"/>
-        <line num="7" count="7" type="stmt"/>
-        <line num="8" count="7" type="stmt"/>
-        <line num="10" count="7" type="cond" truecount="1" falsecount="1"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="13" count="7" type="stmt"/>
-        <line num="14" count="7" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-      </file>
-      <file name="errorHandler.js" path="C:\Users\andri\Documents\Final-Project\server\middlewares\errorHandler.js">
-        <metrics statements="21" coveredstatements="12" conditionals="9" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="6" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
-        <line num="4" count="6" type="stmt"/>
-        <line num="5" count="6" type="cond" truecount="2" falsecount="7"/>
-        <line num="7" count="5" type="stmt"/>
-        <line num="8" count="5" type="stmt"/>
-        <line num="9" count="5" type="stmt"/>
+        <line num="2" count="14" type="stmt"/>
+        <line num="3" count="14" type="stmt"/>
+        <line num="4" count="14" type="stmt"/>
+        <line num="5" count="14" type="cond" truecount="3" falsecount="6"/>
+        <line num="7" count="12" type="stmt"/>
+        <line num="8" count="12" type="stmt"/>
+        <line num="9" count="12" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="33" count="6" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="36" count="14" type="stmt"/>
       </file>
     </package>
     <package name="server.models">
@@ -193,7 +162,7 @@
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
       </file>
       <file name="index.js" path="C:\Users\andri\Documents\Final-Project\server\models\index.js">
         <metrics statements="20" coveredstatements="19" conditionals="9" coveredconditionals="6" methods="3" coveredmethods="3"/>
@@ -223,21 +192,21 @@
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
       </file>
       <file name="question.js" path="C:\Users\andri\Documents\Final-Project\server\models\question.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
       </file>
       <file name="quiz.js" path="C:\Users\andri\Documents\Final-Project\server\models\quiz.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
       </file>
       <file name="score.js" path="C:\Users\andri\Documents\Final-Project\server\models\score.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
@@ -268,10 +237,10 @@
         <line num="6" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="96" count="0" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="100" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="95" count="3" type="stmt"/>
+        <line num="96" count="3" type="stmt"/>
+        <line num="97" count="3" type="stmt"/>
+        <line num="100" count="8" type="cond" truecount="3" falsecount="1"/>
         <line num="101" count="0" type="stmt"/>
         <line num="106" count="1" type="stmt"/>
       </file>

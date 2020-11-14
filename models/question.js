@@ -14,9 +14,33 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Question.init({
-    questions: DataTypes.STRING,
-    choices: DataTypes.ARRAY(DataTypes.STRING),
-    answer: DataTypes.STRING,
+    questions: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: `question cannot be empty`
+        }
+      }
+    },
+    choices: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'choices cannot be empty'
+        }
+      }
+    },
+    answer: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: `answer cannot be empty`
+        }
+      }
+    },
     quizId: DataTypes.INTEGER
   }, {
     sequelize,
