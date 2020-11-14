@@ -22,11 +22,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: 'name is require'
+          msg: 'name is required'
         },
         notEmpty: {
           args: true,
-          msg: 'name is require'
+          msg: 'name is required'
         }
       }
     },
@@ -36,11 +36,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: 'address is require'
+          msg: 'address is required'
         },
         notEmpty: {
           args: true,
-          msg: 'address is require'
+          msg: 'address is required'
         }
       }
     },
@@ -50,11 +50,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: 'birthdate is require'
+          msg: 'birthdate is required'
         },
         notEmpty: {
           args: true,
-          msg: 'birthdate is require'
+          msg: 'birthdate is required'
         }
       }
     },
