@@ -3,17 +3,20 @@ const jwt = require("jsonwebtoken")
 const bcryptjs = require("bcryptjs")
 const createError = require('http-errors')
 const generateToken = require('../helpers/generateToken')
+const getScore = require("../helpers/getScore")
 
 class StudentController{
     static register(req, res, next) {
-        const TeacherId = req.params.token
-        TeacherId = generateToken(TeacherId)
+        let TeacherId = req.verified.id
         const { name, address, birthdate, email, password } = req.body
         Student.create({
             name, address, birthdate, email, password, TeacherId
         })
         .then(student => {
-            res.status(201).json({student})
+            res.status(201).json({
+                id: student.id,
+                email: student.email
+            })
         })
         .catch(err => {
             next(err)
@@ -123,6 +126,22 @@ class StudentController{
         })
         .then(scores => {
             res.status(200).json(scores)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
+    static answer(req, res, next) {
+        const { QuestionId } = req.params
+        const score = getScore(QuestionId)
+        const { answer, StudentId } = req.body
+
+        Score.create({
+            StudentId, answer, score, QuestionId
+        })
+        .then(score => {
+            res.status(200).json()
         })
         .catch(err => {
             next(err)

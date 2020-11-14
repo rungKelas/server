@@ -9,7 +9,7 @@ module.exports = function errorHandler(err, req, res, next) {
             break;
         case "SequelizeUniqueConstraintError":
             statusCode = 400
-            message = `${err.errors[0].message} already exists`
+            message = `${err.errors[0].message}`
             break;
         case "JsonWebTokenError":
             statusCode = 401
@@ -18,7 +18,8 @@ module.exports = function errorHandler(err, req, res, next) {
         case 'NotFoundError':
         case 'ForbiddenError':
         case 'UnauthorizedError':
-        case 'BadRequestError': 
+        case 'BadRequestError':
+        case 'InternalServerError':
             statusCode = err.statusCode
             message = err.message
             break;
