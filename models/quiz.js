@@ -10,20 +10,21 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Quiz.belongsTo(models.Course)
+      Quiz.hasMany(models.Question)
     }
   };
   Quiz.init({
-    title: {
+    name: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
           args: true,
-          msg: `title quiz cannot be empty`
+          msg: `quiz name cannot be empty`
         }
       }
     },
-    courseId: DataTypes.STRING
+    CourseId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Quiz',

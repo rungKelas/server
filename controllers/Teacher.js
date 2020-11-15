@@ -9,12 +9,13 @@ class TeacherController {
             .create({
                 name,
                 address,
-                birthdate,
+                birthdate: birthdate,
                 email,
                 password,
                 role
             })
             .then(teacher => {
+                
                 res.status(201).json({ teacher })
             })
             .catch( err => {
@@ -51,17 +52,17 @@ class TeacherController {
                 }
             })
             .catch( err => {
-                console.log(err.name, `ini eror controller <<<<<<<<<<<<`)
                 next(err)
             })
     }
 
     static createLesson (req, res, next){
-        const { name, id } = req.body
+        const { name } = req.body
+        const { teacherId } = req.params
         Lesson
             .create({
                 name,
-                teacherId: id
+                TeacherId: teacherId
             })
             .then( data => {
                 res.status(201).json(data)
@@ -72,12 +73,13 @@ class TeacherController {
     }
 
     static createCourse (req, res, next){
-        const { name, materialUrl, lessonId } = req.body
+        const { name, materialUrl } = req.body
+        const { lessonId } = req.params
         Course
             .create({
                 name,
                 materialUrl,
-                lessonId
+                LessonId: lessonId
             })
             .then(data => {
                 res.status(201).json(data)
@@ -88,11 +90,12 @@ class TeacherController {
     }
 
     static createQuiz (req, res, next){
-        const { title, courseId } = req.body
+        const { name } = req.body
+        const { courseId } = req.params
         Quiz
             .create({
-                title,
-                courseId
+                name,
+                CourseId: courseId
             })
             .then(data => {
                 res.status(201).json(data)
@@ -104,10 +107,11 @@ class TeacherController {
     }
 
     static createQuestion ( req, res, next ){
-        const { questions, answer, choices, quizId } = req.body
+        const { question, answer, choices } = req.body
+        const { quizId } = req.params
         Question.create({
-            quizId,
-            questions,
+            QuizId: quizId,
+            question,
             choices,
             answer
         })

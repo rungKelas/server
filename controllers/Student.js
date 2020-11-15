@@ -2,12 +2,10 @@ const { Student, Lesson, Quiz, Score, Question } = require('../models')
 const jwt = require("jsonwebtoken")
 const bcryptjs = require("bcryptjs")
 const createError = require('http-errors')
-const generateToken = require('../helpers/generateToken')
-const getScore = require("../helpers/getScore")
 
 class StudentController{
     static register(req, res, next) {
-        let TeacherId = req.verified.id
+        const TeacherId = req.params.token
         const { name, address, birthdate, email, password } = req.body
         Student.create({
             name, address, birthdate, email, password, TeacherId
@@ -25,7 +23,6 @@ class StudentController{
 
     static login(req, res, next) {
         const { email, password } = req.body
-
         Student.findOne({
             where: {email}
         })

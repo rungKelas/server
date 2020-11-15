@@ -23,11 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-
-                <span class="strong">73.91% </span>
+                <span class="strong">75.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/46</span>
-
+                <span class='fraction'>37/49</span>
             </div>
         
             
@@ -50,11 +48,9 @@
         
             
             <div class='fl pad1y space-right2'>
-
-                <span class="strong">73.91% </span>
+                <span class="strong">75.51% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>34/46</span>
-
+                <span class='fraction'>37/49</span>
             </div>
         
             
@@ -236,9 +232,13 @@
 <a name='L169'></a><a href='#L169'>169</a>
 <a name='L170'></a><a href='#L170'>170</a>
 <a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -255,7 +255,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
@@ -296,7 +297,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -304,7 +304,7 @@
 
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -321,7 +321,7 @@
 
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -339,7 +339,7 @@
 
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -357,7 +357,7 @@
 
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -421,7 +421,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const { Teacher, Lesson, Course, Quiz, Question } = require ('../models')
+<span class="cline-any cline-yes">2x</span></td><td class="text"><pre class="prettyprint lang-js">const { Teacher, Lesson, Course, Quiz, Question } = require ('../models')
 const bcryptjs = require ('bcryptjs')
 const jwt = require ('jsonwebtoken')
 &nbsp;
@@ -432,13 +432,14 @@ class TeacherController {
             .create({
                 name,
                 address,
-                birthdate,
+                birthdate: birthdate,
                 email,
                 password,
                 role
             })
-            .then(<span class="fstat-no" title="function not covered" >te</span>acher =&gt; {
-<span class="cstat-no" title="statement not covered" >                res.status(201).json({ teacher })</span>
+            .then(teacher =&gt; {
+                
+                res.status(201).json({ teacher })
             })
             .catch( err =&gt; {
                 next (err)
@@ -476,17 +477,18 @@ class TeacherController {
                 }
             })
             .catch( err =&gt; {
-                console.log(err.name, `ini eror controller &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;`)
                 next(err)
             })
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic createLesson (req, res, next){
-        const { name, id } = <span class="cstat-no" title="statement not covered" >req.body</span>
-<span class="cstat-no" title="statement not covered" >        Lesson</span>
+    static createLesson (req, res, next){
+        const { name } = req.body
+        const { teacherId } = req.params
+        Lesson
+
             .create({
                 name,
-                teacherId: id
+                TeacherId: teacherId
             })
             .then( <span class="fstat-no" title="function not covered" >da</span>ta =&gt; {
 <span class="cstat-no" title="statement not covered" >                res.status(201).json(data)</span>
@@ -496,13 +498,14 @@ class TeacherController {
             })
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic createCourse (req, res, next){
-        const { name, materialUrl, lessonId } = <span class="cstat-no" title="statement not covered" >req.body</span>
-<span class="cstat-no" title="statement not covered" >        Course</span>
+    static createCourse (req, res, next){
+        const { name, materialUrl } = req.body
+        const { lessonId } = req.params
+        Course
             .create({
                 name,
                 materialUrl,
-                lessonId
+                LessonId: lessonId
             })
             .then(<span class="fstat-no" title="function not covered" >da</span>ta =&gt; {
 <span class="cstat-no" title="statement not covered" >                res.status(201).json(data)</span>
@@ -512,12 +515,13 @@ class TeacherController {
             })
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic createQuiz (req, res, next){
-        const { title, courseId } = <span class="cstat-no" title="statement not covered" >req.body</span>
-<span class="cstat-no" title="statement not covered" >        Quiz</span>
+    static createQuiz (req, res, next){
+        const { name } = req.body
+        const { courseId } = req.params
+        Quiz
             .create({
-                title,
-                courseId
+                name,
+                CourseId: courseId
             })
             .then(<span class="fstat-no" title="function not covered" >da</span>ta =&gt; {
 <span class="cstat-no" title="statement not covered" >                res.status(201).json(data)</span>
@@ -528,11 +532,12 @@ class TeacherController {
 &nbsp;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic createQuestion ( req, res, next ){
-        const { questions, answer, choices, quizId } = <span class="cstat-no" title="statement not covered" >req.body</span>
-<span class="cstat-no" title="statement not covered" >        Question.create({</span>
-            quizId,
-            questions,
+    static createQuestion ( req, res, next ){
+        const { question, answer, choices } = req.body
+        const { quizId } = req.params
+        Question.create({
+            QuizId: quizId,
+            question,
             choices,
             answer
         })
@@ -601,9 +606,7 @@ module.exports = TeacherController</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-
-                at Sat Nov 14 2020 23:47:50 GMT+0700 (Western Indonesia Time)
-
+                at Sun Nov 15 2020 13:33:43 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
