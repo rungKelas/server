@@ -2,12 +2,12 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addConstraint('Students', {
-      fields: ['TeacherId'],
+    await queryInterface.addConstraint('Scores', {
+      fields: ['StudentId'],
       type: 'foreign key',
-      name: 'custom_fkey_constraint_TeacherId',
+      name: 'custom_fkey_constraint_StudentId',
       references: {
-        table: 'Teachers',
+        table: 'Students',
         field: 'id'
       },
       onDelete: 'cascade',
@@ -16,6 +16,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeConstraint('Students', 'custom_fkey_constraint_TeacherId');
+    await queryInterface.removeConstraint('Scores', 'custom_fkey_constraint_StudentId');
   }
 };

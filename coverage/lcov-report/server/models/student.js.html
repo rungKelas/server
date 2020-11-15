@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -285,7 +285,11 @@ module.exports = (sequelize, DataTypes) =&gt; {
      */
     static associate(models) {
       // define association here
-      Student.belongsTo(models.Teacher)
+      //Student.hasMany(models.Score, {
+        //foreignKey: 'StudentId',
+    //     sourceKey: 'id'
+    // })
+      //Student.belongsTo(models.Teacher, { foreignKey: 'id' })
     }
   };
   Student.init({

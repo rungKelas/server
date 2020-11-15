@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      //core.belongsTo(models.Student, { foreignKey: 'id' })
     }
   };
   Score.init({

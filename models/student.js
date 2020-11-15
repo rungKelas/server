@@ -12,7 +12,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Student.belongsTo(models.Teacher)
+      //Student.hasMany(models.Score, {
+        //foreignKey: 'StudentId',
+    //     sourceKey: 'id'
+    // })
+      //Student.belongsTo(models.Teacher, { foreignKey: 'id' })
     }
   };
   Student.init({

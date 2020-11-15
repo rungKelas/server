@@ -53,14 +53,17 @@ class StudentController{
     }
 
     static getLessons(req, res, next) {
-        const { TeacherId } = req.body
+        const { teacherId } = req.body
         Lesson.findAll({
             where: {
-                TeacherId
+                teacherId
             }
         })
         .then(lessons => {
-            res.status(200).json({lessons})
+            if (lessons.length < 1){
+                throw createError(400, "not found!")
+            }
+            res.status(200).json(lessons)
         })
         .catch(err => {
             next(err)
@@ -74,8 +77,11 @@ class StudentController{
                 id: lessonId
             }
         })
-        .then(lesson => {
-            res.status(200).json(lesson)
+        .then(course => {
+            if (!course){
+                throw createError(400, "not found!")
+            }
+            res.status(200).json(course)
         })
         .catch(err=> {
             next(err)
@@ -90,6 +96,9 @@ class StudentController{
             }
         })
         .then(quiz => {
+            if (quiz.length < 1){
+                throw createError(400, "not found!")
+            }
             res.status(200).json(quiz)
         })
         .catch(err => {
@@ -99,14 +108,17 @@ class StudentController{
     }
 
     static getQuestion(req, res, next) {
-        const { QuizId } = req.params
+        const { quizId } = req.params
         Question.findAll({
             where: {
-                QuizId
+                quizId
             }
         })
-        .then(quizs => {
-            res.status(200).json(quizs)
+        .then(question => {
+            if (question.length < 1){
+                throw createError(400, "not found!")
+            }
+            res.status(200).json(question)
         })
         .catch(err => {
             next(err)
@@ -122,6 +134,10 @@ class StudentController{
             }
         })
         .then(scores => {
+            console.log(scores)
+            if (scores.length < 1){
+                throw createError(400, "not found!")
+            }
             res.status(200).json(scores)
         })
         .catch(err => {
@@ -131,14 +147,16 @@ class StudentController{
 
     static answer(req, res, next) {
         const { QuestionId } = req.params
-        const score = getScore(QuestionId)
-        const { answer, StudentId } = req.body
-
+        const { answer, StudentId, QuizId } = req.body
+        const score = req.score
+        
         Score.create({
-            StudentId, answer, score, QuestionId
+            StudentId, answer, score, QuestionId, QuizId
         })
         .then(score => {
-            res.status(200).json()
+            res.status(200).json({
+                score: score.score
+            })
         })
         .catch(err => {
             next(err)
