@@ -11,7 +11,10 @@ class StudentController{
             name, address, birthdate, email, password, TeacherId
         })
         .then(student => {
-            res.status(201).json({student})
+            res.status(201).json({
+                id: student.id,
+                email: student.email
+            })
         })
         .catch(err => {
             next(err)
@@ -20,7 +23,6 @@ class StudentController{
 
     static login(req, res, next) {
         const { email, password } = req.body
-
         Student.findOne({
             where: {email}
         })
@@ -121,6 +123,22 @@ class StudentController{
         })
         .then(scores => {
             res.status(200).json(scores)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
+    static answer(req, res, next) {
+        const { QuestionId } = req.params
+        const score = getScore(QuestionId)
+        const { answer, StudentId } = req.body
+
+        Score.create({
+            StudentId, answer, score, QuestionId
+        })
+        .then(score => {
+            res.status(200).json()
         })
         .catch(err => {
             next(err)
