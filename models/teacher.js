@@ -5,17 +5,17 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Teacher extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
+<<<<<<< HEAD
       // define association here
     //   Teacher.hasMany(models.Student,{
     //     foreignKey: 'TeacherId',
     //     sourceKey: 'id'
     // })
+=======
+      Teacher.hasMany(models.Student)
+      Teacher.hasMany(models.Lesson)
+>>>>>>> development
     }
   };
   Teacher.init({

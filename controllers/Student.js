@@ -5,7 +5,7 @@ const createError = require('http-errors')
 
 class StudentController{
     static register(req, res, next) {
-        let TeacherId = req.verified.id
+        const TeacherId = req.params.token
         const { name, address, birthdate, email, password } = req.body
         Student.create({
             name, address, birthdate, email, password, TeacherId
@@ -23,7 +23,6 @@ class StudentController{
 
     static login(req, res, next) {
         const { email, password } = req.body
-
         Student.findOne({
             where: {email}
         })

@@ -16,10 +16,10 @@ route.post("/answer/:QuestionId", getScore, StudentController.answer)
 
 route.post("/teacher/register", TeacherController.teacherRegister)
 route.post("/teacher/login", TeacherController.teacherLogin)
-route.post("/teacher/lesson", TeacherController.createLesson)
-route.post("/teacher/course", TeacherController.createCourse)
-route.post("/teacher/quiz", TeacherController.createQuiz)
-route.post("/teacher/question", TeacherController.createQuestion)
+route.post("/teacher/lesson/:teacherId", TeacherController.createLesson)
+route.post("/teacher/course/:lessonId", TeacherController.createCourse)
+route.post("/teacher/quiz/:courseId", TeacherController.createQuiz)
+route.post("/teacher/question/:quizId", TeacherController.createQuestion)
 
 
 

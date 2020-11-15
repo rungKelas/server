@@ -2,7 +2,6 @@ const app = require ('../app.js')
 const { Teacher, Lesson, Course, Quiz, Question } = require ('../models')
 const request = require ('supertest')
 const jwt = require ('jsonwebtoken')
-const { lessons } = require('../controllers/Student.js')
 const teacher = {
     name: "Egy Fazri",
     address: "Karawang",
@@ -15,24 +14,11 @@ let teacherId = null
 let lessonId = null
 let courseId = null
 let quizId = null
-let questionId = null
 let access_token = null
 
 
 
 describe('Teacher Routes', () => {
-
-    // beforeAll((done) => {
-    //     Teacher
-    //         .create(teacher)
-    //         .then(teacher => {
-    //             access_token = jwt.sign({
-    //                 id: teacher.id,
-    //                 email: teacher.email
-    //             }, `secret`)
-    //             teacherId = teacher.id
-    //         })
-    // })
 
     beforeAll((done) => {
         Teacher
@@ -88,42 +74,30 @@ describe('Teacher Routes', () => {
     afterAll( (done) => {
         Teacher
             .destroy({
-                where: {},
-                truncate: true
+                truncate: {cascade: true}
             })
             .then(_ => {
                 done()
                 return Lesson.destroy({
-                    where: {},
-                    truncate: true
+                    truncate: {cascade: true}
                 })
             })
             .then(_ => {
                 done()
                 return Course.destroy({
-                    where: {},
-                    truncate: true
-                })
-            })
-            .then(_ => {
-                done()
-                return Course.destroy({
-                    where: {},
-                    truncate: true
+                    truncate: {cascade: true}
                 })
             })
             .then(_ => {
                 done()
                 return Quiz.destroy({
-                    where: {},
-                    truncate: true
+                    truncate: {cascade: true}
                 })
             })
             .then(_ => {
                 done()
                 return Question.destroy({
-                    where: {},
-                    truncate: true
+                    truncate: {cascade: true}
                 })
             })
             .catch( err => {
@@ -358,10 +332,9 @@ describe('Teacher Routes', () => {
         describe('success create lesson', () => {
             test('should return status 201 and object of lesson' , (done) => {
                 request(app)
-                    .post('/teacher/lesson')
+                    .post('/teacher/lesson/' + teacherId)
                     .send({
-                        name: 'Bahasa Indonesia',
-                        id: teacherId
+                        name: 'Bahasa Indonesia'
                     })
                     .end( (err, response) => {
                         if (err) {
@@ -369,9 +342,8 @@ describe('Teacher Routes', () => {
                         } else {
                             const data = response.body
                             expect(200)
-                            expect(data).toHaveProperty("id")
                             expect(data).toHaveProperty("name", "Bahasa Indonesia")
-                            expect(data).toHaveProperty("teacherId", teacherId)
+                            expect(data).toHaveProperty("TeacherId", teacherId)
                             done()
                         }
                     })
@@ -381,10 +353,9 @@ describe('Teacher Routes', () => {
         describe('failed create lesson', () => {
             test('should return status 400 and lesson name cannot be empty' , (done) => {
                 request(app)
-                    .post('/teacher/lesson')
+                    .post('/teacher/lesson/' + teacherId)
                     .send({
-                        name: '',
-                        id: teacherId
+                        name: ''
                     })
                     .end( (err, response) => {
                         if (err) {
@@ -400,26 +371,25 @@ describe('Teacher Routes', () => {
         })
     })
 
+
     describe('POST teacher/course', () => {
         describe('success create course', () => {
             test('should return status 201 and object of course' , (done) => {
                 request(app)
-                    .post('/teacher/course')
+                    .post('/teacher/course/' + lessonId)
                     .send({
                         name: 'SPOK',
-                        materialUrl: "http://",
-                        lessonId
+                        materialUrl: "http://"
                     })
                     .end( (err, response) => {
                         if (err) {
                             done(err)
                         } else {
                             const data = response.body
-                            console.log(data)
                             expect(201)
                             expect(data).toHaveProperty("id")
                             expect(data).toHaveProperty("name", "SPOK")
-                            expect(data).toHaveProperty("lessonId", lessonId)
+                            expect(data).toHaveProperty("LessonId", lessonId)
                             done()
                         }
                     })
@@ -429,18 +399,16 @@ describe('Teacher Routes', () => {
         describe('failed create course', () => {
             test('should return status 400 and course name cannot be empty' , (done) => {
                 request(app)
-                    .post('/teacher/course')
+                    .post('/teacher/course/' + lessonId)
                     .send({
                         name: '',
-                        materialUrl: "http://",
-                        lessonId
+                        materialUrl: "http://"
                     })
                     .end( (err, response) => {
                         if (err) {
                             done(err)
                         } else {
                             const data = response.body
-                            console.log(data)
                             expect(400)
                             expect(data).toHaveProperty("message", "course name cannot be empty")
                             done()
@@ -450,18 +418,16 @@ describe('Teacher Routes', () => {
 
             test('should return status 400 and course materialUrl cannot be empty' , (done) => {
                 request(app)
-                    .post('/teacher/course')
+                    .post('/teacher/course/' + lessonId)
                     .send({
                         name: 'Bahasa Indonesia',
-                        materialUrl: "",
-                        lessonId
+                        materialUrl: ""
                     })
                     .end( (err, response) => {
                         if (err) {
                             done(err)
                         } else {
                             const data = response.body
-                            console.log(data)
                             expect(400)
                             expect(data).toHaveProperty("message", "material url cannot be empty")
                             done()
@@ -476,21 +442,19 @@ describe('Teacher Routes', () => {
         describe('success create quiz', () => {
             test('should return status 201 and object of quiz' , (done) => {
                 request(app)
-                    .post('/teacher/quiz')
+                    .post('/teacher/quiz/' + courseId)
                     .send({
-                        title: "SPOK Quiz",
-                        courseId
+                        name: "SPOK Quiz"
                     })
                     .end( (err, response) => {
                         if (err) {
                             done(err)
                         } else {
                             const data = response.body
-                            console.log(data,`ini data quiz`)
                             expect(201)
                             expect(data).toHaveProperty("id")
-                            expect(data).toHaveProperty("title", "SPOK Quiz")
-                            expect(data).toHaveProperty("courseId", String(courseId))
+                            expect(data).toHaveProperty("name", "SPOK Quiz")
+                            expect(data).toHaveProperty("CourseId", courseId)
                             done()
                         }
                     })
@@ -500,19 +464,17 @@ describe('Teacher Routes', () => {
         describe('failed create quiz', () => {
             test('should return status 400 and title quiz cannot be empty' , (done) => {
                 request(app)
-                    .post('/teacher/quiz')
+                    .post('/teacher/quiz/' + courseId)
                     .send({
-                        title: "",
-                        courseId
+                        name: ""
                     })
                     .end( (err, response) => {
                         if (err) {
                             done(err)
                         } else {
                             const data = response.body
-                            console.log(data,`ini data quiz`)
                             expect(400)
-                            expect(data).toHaveProperty("message", "title quiz cannot be empty")
+                            expect(data).toHaveProperty("message", "quiz name cannot be empty")
                             done()
                         }
                     })
@@ -525,23 +487,21 @@ describe('Teacher Routes', () => {
         describe('success create question', () => {
             test('should return status 201 and object of question' , (done) => {
                 request(app)
-                    .post('/teacher/question')
+                    .post('/teacher/question/' + quizId)
                     .send({
-                        questions: "apa nama ibu kota amerika serikat?",
+                        question: "apa nama ibu kota amerika serikat?",
                         choices: ["Jakarta", "Washington DC", "New York", "Chicago" ],
-                        answer: "washingtong DC",
-                        quizId
+                        answer: "washingtong DC"
                     })
                     .end( (err, response) => {
                         if (err) {
                             done(err)
                         } else {
                             const data = response.body
-                            console.log(data)
                             expect(201)
                             expect(data).toHaveProperty("id")
-                            expect(data).toHaveProperty("questions", "apa nama ibu kota amerika serikat?")
-                            expect(data).toHaveProperty("quizId", quizId)
+                            expect(data).toHaveProperty("question", "apa nama ibu kota amerika serikat?")
+                            expect(data).toHaveProperty("QuizId", quizId)
                             done()
                         }
                     })
@@ -551,19 +511,17 @@ describe('Teacher Routes', () => {
         describe('failed create question', () => {
             test('should return status 400 and question cannot be empty' , (done) => {
                 request(app)
-                    .post('/teacher/question')
+                    .post('/teacher/question/' + quizId)
                     .send({
-                        questions: "",
+                        question: "",
                         choices: ["Jakarta", "Washington DC", "New York", "Chicago" ],
-                        answer: "washingtong DC",
-                        quizId
+                        answer: "washingtong DC"
                     })
                     .end( (err, response) => {
                         if (err) {
                             done(err)
                         } else {
                             const data = response.body
-                            console.log(data)
                             expect(400)
                             expect(data).toHaveProperty("message", "question cannot be empty")
                             done()
@@ -573,19 +531,17 @@ describe('Teacher Routes', () => {
 
             test('should return status 400 and choices cannot be empty' , (done) => {
                 request(app)
-                    .post('/teacher/question')
+                    .post('/teacher/question/' + quizId)
                     .send({
-                        questions: "Apakah nama tata surya dari bumi?",
+                        question: "Apakah nama tata surya dari bumi?",
                         choices: [],
-                        answer: "washingtong DC",
-                        quizId
+                        answer: "washingtong DC"
                     })
                     .end( (err, response) => {
                         if (err) {
                             done(err)
                         } else {
                             const data = response.body
-                            console.log(data)
                             expect(400)
                             expect(data).toHaveProperty("message", "choices cannot be empty")
                             done()
@@ -595,19 +551,17 @@ describe('Teacher Routes', () => {
 
             test('should return status 400 and answer cannot be empty' , (done) => {
                 request(app)
-                    .post('/teacher/question')
+                    .post('/teacher/question/' + quizId)
                     .send({
-                        questions: "Apakah nama tata surya dari bumi?",
+                        question: "Apakah nama tata surya dari bumi?",
                         choices: ["bima sakti", "andromeda", "zatura", "lazarus"],
-                        answer: "",
-                        quizId
+                        answer: ""
                     })
                     .end( (err, response) => {
                         if (err) {
                             done(err)
                         } else {
                             const data = response.body
-                            console.log(data)
                             expect(400)
                             expect(data).toHaveProperty("message", "answer cannot be empty")
                             done()

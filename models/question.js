@@ -10,27 +10,37 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Question.belongsTo(models.Quiz)
     }
   };
   Question.init({
-    questions: {
-      type: DataTypes.STRING,
+    question: {
+      type: DataTypes.STRING, 
       validate: {
         notEmpty: {
           args: true,
           msg: `question cannot be empty`
+        },
+        notNull: {
+          args: true,
+          msg: `question cannot be empty`
         }
-      }
+      },
+      allowNull: false
     },
     choices: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.ARRAY(DataTypes.STRING), 
       validate: {
         notEmpty: {
           args: true,
-          msg: 'choices cannot be empty'
+          msg: `choices cannot be empty`
+        },
+        notNull: {
+          args: true,
+          msg: `choices cannot be empty`
         }
-      }
+      },
+      allowNull: false
     },
     answer: {
       type: DataTypes.STRING,
@@ -41,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    quizId: DataTypes.INTEGER
+    QuizId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Question',
