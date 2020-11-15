@@ -8,7 +8,7 @@ module.exports = function checkTokenRegisterStudent(req, res, next) {
     Teacher.findByPk(verified.id)
     .then(teacher => {
         if (!teacher) {
-            throw createError('token is invalid')
+            throw createError(400, 'token is invalid')
         } else {
             req.verified = verified
             next()

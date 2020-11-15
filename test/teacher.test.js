@@ -292,7 +292,7 @@ describe('Teacher Routes', () => {
                         if (err) {
                             done(err)
                         } else {
-                            const data =response.body
+                            const data = response.body
                             expect(400)
                             expect(data).toHaveProperty("message", "email already used")
                             done()
