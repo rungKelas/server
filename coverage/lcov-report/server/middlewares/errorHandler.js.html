@@ -90,6 +90,17 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
+
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
@@ -106,6 +117,7 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
+
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -149,7 +161,9 @@
             break;
         case "SequelizeUniqueConstraintError":
             statusCode = 400
+
             message = `email already used`
+
             break;
 <span class="branch-2 cbranch-no" title="branch not covered" >        case "JsonWebTokenError":</span>
 <span class="cstat-no" title="statement not covered" >            statusCode = 401</span>
@@ -169,6 +183,7 @@
 <span class="cstat-no" title="statement not covered" >            statusCode = 401</span>
 <span class="cstat-no" title="statement not covered" >            message = `Unauthorized Access`</span>
 <span class="branch-7 cbranch-no" title="branch not covered" >        case 'BadRequestError': </span>
+
 <span class="cstat-no" title="statement not covered" >            statusCode = err.statusCode</span>
 <span class="cstat-no" title="statement not covered" >            message = err.message</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>

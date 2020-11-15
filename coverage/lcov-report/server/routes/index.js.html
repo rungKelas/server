@@ -105,7 +105,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const route = require('express').Router()
 const StudentController = require('../controllers/Student')
@@ -128,6 +127,7 @@ route.post("/teacher/lesson/:teacherId", TeacherController.createLesson)
 route.post("/teacher/course/:lessonId", TeacherController.createCourse)
 route.post("/teacher/quiz/:courseId", TeacherController.createQuiz)
 route.post("/teacher/question/:quizId", TeacherController.createQuestion)
+&nbsp;
 &nbsp;
 &nbsp;
 &nbsp;

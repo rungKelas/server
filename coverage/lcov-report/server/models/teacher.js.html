@@ -30,16 +30,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -247,6 +247,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -347,13 +353,13 @@ module.exports = (sequelize, DataTypes) =&gt; {
     sequelize,
     modelName: 'Teacher',
     hooks: {
-      beforeCreate(teacher){        
-        let salt = bcryptjs.genSaltSync(10)
-        let hash = bcryptjs.hashSync(teacher.password, salt)
-        teacher.password = hash
+<span class="fstat-no" title="function not covered" >      be</span>foreCreate(teacher){        
+        let salt = <span class="cstat-no" title="statement not covered" >bcryptjs.genSaltSync(10)</span>
+        let hash = <span class="cstat-no" title="statement not covered" >bcryptjs.hashSync(teacher.password, salt)</span>
+<span class="cstat-no" title="statement not covered" >        teacher.password = hash</span>
       },
-      beforeValidate(teacher){
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (teacher.role == null || teacher.role == ''){
+<span class="fstat-no" title="function not covered" >      be</span>foreValidate(teacher){
+<span class="cstat-no" title="statement not covered" >        if (teacher.role == null || teacher.role == ''){</span>
 <span class="cstat-no" title="statement not covered" >          teacher.role = "teacher"</span>
         }
       }
