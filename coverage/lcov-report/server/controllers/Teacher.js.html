@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.91% </span>
+                <span class="strong">75.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/46</span>
+                <span class='fraction'>37/49</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.91% </span>
+                <span class="strong">75.51% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>34/46</span>
+                <span class='fraction'>37/49</span>
             </div>
         
             
@@ -228,7 +228,12 @@
 <a name='L169'></a><a href='#L169'>169</a>
 <a name='L170'></a><a href='#L170'>170</a>
 <a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -236,6 +241,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -282,12 +288,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -304,6 +311,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -320,6 +328,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -334,6 +343,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -410,12 +420,13 @@ class TeacherController {
             .create({
                 name,
                 address,
-                birthdate,
+                birthdate: birthdate,
                 email,
                 password,
                 role
             })
             .then(teacher =&gt; {
+                
                 res.status(201).json({ teacher })
             })
             .catch( err =&gt; {
@@ -452,17 +463,18 @@ class TeacherController {
                 }
             })
             .catch( err =&gt; {
-                console.log(err.name, `ini eror controller &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;`)
                 next(err)
             })
     }
 &nbsp;
     static createLesson (req, res, next){
-        const { name, id } = req.body
+        const { name } = req.body
+        const { teacherId } = req.params
+    
         Lesson
             .create({
                 name,
-                teacherId: id
+                TeacherId: teacherId
             })
             .then( data =&gt; {
                 res.status(201).json(data)
@@ -473,12 +485,13 @@ class TeacherController {
     }
 &nbsp;
     static createCourse (req, res, next){
-        const { name, materialUrl, lessonId } = req.body
+        const { name, materialUrl } = req.body
+        const { lessonId } = req.params
         Course
             .create({
                 name,
                 materialUrl,
-                lessonId
+                LessonId: lessonId
             })
             .then(data =&gt; {
                 res.status(201).json(data)
@@ -489,11 +502,12 @@ class TeacherController {
     }
 &nbsp;
     static createQuiz (req, res, next){
-        const { title, courseId } = req.body
+        const { name } = req.body
+        const { courseId } = req.params
         Quiz
             .create({
-                title,
-                courseId
+                name,
+                CourseId: courseId
             })
             .then(data =&gt; {
                 res.status(201).json(data)
@@ -505,10 +519,11 @@ class TeacherController {
     }
 &nbsp;
     static createQuestion ( req, res, next ){
-        const { questions, answer, choices, quizId } = req.body
+        const { question, answer, choices } = req.body
+        const { quizId } = req.params
         Question.create({
-            quizId,
-            questions,
+            QuizId: quizId,
+            question,
             choices,
             answer
         })
@@ -577,7 +592,7 @@ module.exports = TeacherController</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Nov 14 2020 23:47:50 GMT+0700 (Western Indonesia Time)
+                at Sun Nov 15 2020 11:59:40 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

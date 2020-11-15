@@ -2,12 +2,10 @@ const { Student, Lesson, Quiz, Score, Question } = require('../models')
 const jwt = require("jsonwebtoken")
 const bcryptjs = require("bcryptjs")
 const createError = require('http-errors')
-const generateToken = require('../helpers/generateToken')
 
 class StudentController{
     static register(req, res, next) {
         const TeacherId = req.params.token
-        TeacherId = generateToken(TeacherId)
         const { name, address, birthdate, email, password } = req.body
         Student.create({
             name, address, birthdate, email, password, TeacherId

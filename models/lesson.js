@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Lesson.belongsTo(models.Teacher)
+      Lesson.hasMany(models.Course)
     }
   };
   Lesson.init({
@@ -23,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    teacherId: DataTypes.INTEGER
+    TeacherId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Lesson',
