@@ -5,7 +5,7 @@ const createError = require('http-errors')
 
 class StudentController{
     static register(req, res, next) {
-        const TeacherId = req.verified
+        const TeacherId = req.verified.id
         const { name, address, birthdate, email, password } = req.body
         Student.create({
             name, address, birthdate, email, password, TeacherId

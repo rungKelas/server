@@ -2,13 +2,11 @@ const route = require('express').Router()
 const StudentController = require('../controllers/Student')
 const TeacherController = require('../controllers/Teacher')
 const authentication = require ('../middlewares/authentication')
-const authorization = require ('../middlewares/authorization')
-const teacher = require('../models/teacher')
 const getScore = require('../middlewares/getScore')
 const checkTokenRegisterStudent = require('../middlewares/checkTokenRegisterStudent')
-const authentication = require('../middlewares/authentication')
+const convertToken = require('../middlewares/convertToken')
 
-route.post("/register/:token",  checkTokenRegisterStudent, StudentController.register)
+route.post("/register/:token",  convertToken, StudentController.register)
 route.post("/login", StudentController.login)
 route.get("/lessons", StudentController.getLessons)
 route.get("/lessons/:lessonId", StudentController.getCourse)
@@ -26,7 +24,5 @@ route.post("/teacher/quiz/:courseId", TeacherController.createQuiz)
 route.post("/teacher/question/:quizId", TeacherController.createQuestion)
 route.put ("/teacher/question/:questionId", TeacherController.editQuestions)
 route.delete("/teacher/question/:questionId", TeacherController.deleteQuiz)
-
-
 
 module.exports = route
