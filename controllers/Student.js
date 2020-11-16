@@ -53,10 +53,10 @@ class StudentController{
     }
 
     static getLessons(req, res, next) {
-        const { teacherId } = req.body
+        const { TeacherId } = req.body
         Lesson.findAll({
             where: {
-                teacherId
+                TeacherId
             }
         })
         .then(lessons => {
@@ -89,10 +89,10 @@ class StudentController{
     }
 
     static getQuiz(req, res, next) {
-        const { courseId } = req.params
+        const { CourseId } = req.params
         Quiz.findAll({
             where: {
-                courseId
+                CourseId
             }
         })
         .then(quiz => {
@@ -108,10 +108,10 @@ class StudentController{
     }
 
     static getQuestion(req, res, next) {
-        const { quizId } = req.params
+        const { QuizId } = req.params
         Question.findAll({
             where: {
-                quizId
+                QuizId
             }
         })
         .then(question => {
@@ -134,7 +134,6 @@ class StudentController{
             }
         })
         .then(scores => {
-            console.log(scores)
             if (scores.length < 1){
                 throw createError(400, "not found!")
             }
