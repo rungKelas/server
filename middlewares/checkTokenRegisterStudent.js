@@ -4,17 +4,27 @@ const createError = require('http-errors')
 
 module.exports = function checkTokenRegisterStudent(req, res, next) {
     const token = req.params.token
-    const verified = jwt.verify(token, `secret`)
-    Teacher.findByPk(verified.id)
-    .then(teacher => {
-        if (!teacher) {
-            throw createError(400, 'token is invalid')
-        } else {
-            req.verified = verified
-            next()
+    let teacherId = ""
+    
+    for(let i = 0; i < token.length; i++){
+        if (i == token.length-2 || i == token.length-1 ) {
+            teacherId += token[i]
         }
-    })
-    .catch(err => {
-        next(err)
-    })
+    }
+
+    req.verified = teacherId
+    next()
+    // const verified = jwt.verify(token, `secret`)
+    // Teacher.findByPk(verified.id)
+    // .then(teacher => {
+    //     if (!teacher) {
+    //         throw createError(400, 'token is invalid')
+    //     } else {
+    //         req.verified = verified
+    //         next()
+    //     }
+    // })
+    // .catch(err => {
+    //     next(err)
+    // })
 }

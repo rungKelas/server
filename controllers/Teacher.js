@@ -39,8 +39,9 @@ class TeacherController {
                     if (validatePassword) {
                         const access_token = jwt.sign({
                             id: data.id,
-                            email: data.email
-                        }, `secret`)
+                            email: data.email,
+                            role: data.role
+                        }, process.env.JWT_SECRET)
                         res.status(200).json({ access_token })
                     } else {
                         throw {
@@ -52,6 +53,11 @@ class TeacherController {
             .catch( err => {
                 next(err)
             })
+    }
+
+    static getCode (req, res, next){
+        const code = req.verified.iat + String(req.verified.id)
+        res.status(201).json({code})
     }
 
     static createLesson (req, res, next){
