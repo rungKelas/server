@@ -9,8 +9,8 @@ route.post("/register/:token",  checkTokenRegisterStudent, StudentController.reg
 route.post("/login", StudentController.login)
 route.get("/lessons", StudentController.getLessons)
 route.get("/lessons/:lessonId", StudentController.getCourse)
-route.get("/quiz/:courseId", StudentController.getQuiz)
-route.get("/questions/:quizId", StudentController.getQuestion)
+route.get("/quiz/:CourseId", StudentController.getQuiz)
+route.get("/questions/:QuizId", StudentController.getQuestion)
 route.get("/scores/:StudentId", StudentController.getScore)
 route.post("/answer/:QuestionId", getScore, StudentController.answer)
 
@@ -20,6 +20,8 @@ route.post("/teacher/lesson/:teacherId", TeacherController.createLesson)
 route.post("/teacher/course/:lessonId", TeacherController.createCourse)
 route.post("/teacher/quiz/:courseId", TeacherController.createQuiz)
 route.post("/teacher/question/:quizId", TeacherController.createQuestion)
+route.put ("/teacher/question/:questionId", TeacherController.editQuestions)
+route.delete("/teacher/question/:questionId", TeacherController.deleteQuiz)
 
 
 

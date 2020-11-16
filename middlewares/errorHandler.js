@@ -1,4 +1,9 @@
 module.exports = function errorHandler(err, req, res, next) {
+<<<<<<< HEAD
+    console.log(err)
+=======
+    console.log(err, `<<<<<<<<<<<<<<<<<`)
+>>>>>>> e5298592d033825529566bbe83769ca46493b5e2
     let statusCode = 500
     let message = "Internal Server Error!"
     switch (err.name) {
@@ -15,15 +20,13 @@ module.exports = function errorHandler(err, req, res, next) {
             message = 'Failed to authenticate'
             break;
         case 'NotFoundError':
-            statusCode= 404
+            statusCode = 400
             message = 'Error Not Found'
         case 'email/password is wrong':
             statusCode = 400
             message = err.name
             break;
         case 'ForbiddenError':
-            statusCode = 403
-            message = 'Forbidden Access'
         case 'UnauthorizedError':
             statusCode = 401
             message = `Unauthorized Access`
@@ -37,6 +40,5 @@ module.exports = function errorHandler(err, req, res, next) {
             message
             break;
     }
-
     res.status(statusCode).json({message})
 }

@@ -8,8 +8,7 @@ let dataStudent = {
     address: "Jakarta",
     birthdate: "1-1-1444",
     email: "deadea@mail.com",
-    password: "444444",
-    TeacherId: '1'
+    password: "444444"
 }
 
 let dataTeacher = {
@@ -25,6 +24,7 @@ let newLesson
 let newCourse
 let newQuiz
 let newQuestion
+let dataTeach = null
 
 beforeAll(done => {
     Teacher.create(dataTeacher)
@@ -33,14 +33,14 @@ beforeAll(done => {
             token = jwt.sign({
             id: teacher.id,
             email: teacher.email
-        }, process.env.JWT_TEACHER)
+        }, `secret`)
         return Student.create(dataStudent)
     })
     .then(data => {
         newStudent = data
         return Lesson.create({
             name: `Matematika`, 
-            teacherId: newTeacher.id
+            TeacherId: newTeacher.id
         })
     })
     .then(lesson => {
@@ -48,14 +48,14 @@ beforeAll(done => {
         return Course.create({
             name: 'Aljabar',
             materialUrl: 'http',
-            lessonId: newLesson.id
+            LessonId: newLesson.id
         })
     })
     .then(course => {
         newCourse = course
         return Quiz.create({
             title: 'AljabarQuiz',
-            courseId: course.id
+            CourseId: course.id
         })
     })
     .then(quiz => {
@@ -64,12 +64,12 @@ beforeAll(done => {
             question: `Apa nama ibu kota Indonesia?`,
             choices: [`Jakarta`, 'Bandung', 'Pekalongan', 'Yogyakarta'],
             answer: 'Jakarta',
-            quizId: quiz.id
+            QuizId: quiz.id
         })
     })
     .then(question => {
-        newQuestion = question
         done()
+        newQuestion = question
     })
     .catch(err => {
         done(err)
@@ -79,21 +79,27 @@ beforeAll(done => {
 afterAll(done => {
     Student.destroy({ truncate: { cascade: true } })
     .then(_=> {
+        done()
        return Teacher.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
+        done()
         return Lesson.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
+        done()
         return Course.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
+        done()
         return Quiz.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
+        done()
         return Question.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
+        done()
         return Score.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
@@ -106,6 +112,7 @@ afterAll(done => {
 
 describe('Register Student', () => {
     describe('Success Register Student', () => {
+        console.log(newTeacher, `<<<<<<<< ini data techer`)
         test('Should return status 201 and Object Student', (done) => {
             request(app)
             .post('/register/'+token)
@@ -122,7 +129,7 @@ describe('Register Student', () => {
                     expect(res.status).toBe(201);
                     expect(res.body).toHaveProperty('id')
                     expect(res.body).toHaveProperty('email')
-                    //expect(res.body).not.toHaveProperty('password')
+                    expect(res.body).not.toHaveProperty('password')
                     done()
                 }
             })
@@ -315,7 +322,7 @@ describe('Get Lesson', () => {
             request(app)
             .get(`/lessons`)
             .send({
-                teacherId: newTeacher.id
+                TeacherId: newTeacher.id
             })
             .end((err, res) =>{
                 if (err)throw err;
@@ -332,7 +339,7 @@ describe('Get Lesson', () => {
             request(app)
             .get(`/lessons`)
             .send({
-                teacherId: newTeacher.id+1
+                TeacherId: newTeacher.id+1
             })
             .end((err, res) =>{
                 if (err)throw err;
