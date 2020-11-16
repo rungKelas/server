@@ -1,9 +1,4 @@
 module.exports = function errorHandler(err, req, res, next) {
-<<<<<<< HEAD
-    console.log(err)
-=======
-    console.log(err, `<<<<<<<<<<<<<<<<<`)
->>>>>>> e5298592d033825529566bbe83769ca46493b5e2
     let statusCode = 500
     let message = "Internal Server Error!"
     switch (err.name) {

@@ -5,7 +5,7 @@ const createError = require('http-errors')
 
 class StudentController{
     static register(req, res, next) {
-        const TeacherId = req.verified.id
+        const TeacherId = req.verified
         const { name, address, birthdate, email, password } = req.body
         Student.create({
             name, address, birthdate, email, password, TeacherId
@@ -31,7 +31,7 @@ class StudentController{
                 throw createError(400, "invalid email / password")
             } else {
                 const validPassword = bcryptjs.compareSync(password, student.password)
-
+                console.log(validPassword, `<<<`)
                 if (!validPassword) {
                     throw createError(400, "invalid email / password")
                 }
