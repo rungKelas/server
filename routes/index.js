@@ -9,8 +9,8 @@ route.post("/register/:token",  checkTokenRegisterStudent, StudentController.reg
 route.post("/login", StudentController.login)
 route.get("/lessons", StudentController.getLessons)
 route.get("/lessons/:lessonId", StudentController.getCourse)
-route.get("/quiz/:courseId", StudentController.getQuiz)
-route.get("/questions/:quizId", StudentController.getQuestion)
+route.get("/quiz/:CourseId", StudentController.getQuiz)
+route.get("/questions/:QuizId", StudentController.getQuestion)
 route.get("/scores/:StudentId", StudentController.getScore)
 route.post("/answer/:QuestionId", getScore, StudentController.answer)
 

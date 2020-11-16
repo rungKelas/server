@@ -40,7 +40,7 @@ beforeAll(done => {
         newStudent = data
         return Lesson.create({
             name: `Matematika`, 
-            teacherId: newTeacher.id
+            TeacherId: newTeacher.id
         })
     })
     .then(lesson => {
@@ -48,14 +48,14 @@ beforeAll(done => {
         return Course.create({
             name: 'Aljabar',
             materialUrl: 'http',
-            lessonId: newLesson.id
+            LessonId: newLesson.id
         })
     })
     .then(course => {
         newCourse = course
         return Quiz.create({
             title: 'AljabarQuiz',
-            courseId: course.id
+            CourseId: course.id
         })
     })
     .then(quiz => {
@@ -64,7 +64,7 @@ beforeAll(done => {
             question: `Apa nama ibu kota Indonesia?`,
             choices: [`Jakarta`, 'Bandung', 'Pekalongan', 'Yogyakarta'],
             answer: 'Jakarta',
-            quizId: quiz.id
+            QuizId: quiz.id
         })
     })
     .then(question => {
@@ -79,21 +79,27 @@ beforeAll(done => {
 afterAll(done => {
     Student.destroy({ truncate: { cascade: true } })
     .then(_=> {
+        done()
        return Teacher.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
+        done()
         return Lesson.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
+        done()
         return Course.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
+        done()
         return Quiz.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
+        done()
         return Question.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
+        done()
         return Score.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
@@ -122,7 +128,7 @@ describe('Register Student', () => {
                     expect(res.status).toBe(201);
                     expect(res.body).toHaveProperty('id')
                     expect(res.body).toHaveProperty('email')
-                    //expect(res.body).not.toHaveProperty('password')
+                    expect(res.body).not.toHaveProperty('password')
                     done()
                 }
             })
@@ -315,7 +321,7 @@ describe('Get Lesson', () => {
             request(app)
             .get(`/lessons`)
             .send({
-                teacherId: newTeacher.id
+                TeacherId: newTeacher.id
             })
             .end((err, res) =>{
                 if (err)throw err;
@@ -332,7 +338,7 @@ describe('Get Lesson', () => {
             request(app)
             .get(`/lessons`)
             .send({
-                teacherId: newTeacher.id+1
+                TeacherId: newTeacher.id+1
             })
             .end((err, res) =>{
                 if (err)throw err;

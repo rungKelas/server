@@ -13,6 +13,8 @@ module.exports = {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+
+    //this is for test
   },
 
   down: async (queryInterface, Sequelize) => {
