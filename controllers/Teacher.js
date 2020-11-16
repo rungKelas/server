@@ -1,7 +1,6 @@
 const { Teacher, Lesson, Course, Quiz, Question } = require ('../models')
 const bcryptjs = require ('bcryptjs')
 const jwt = require ('jsonwebtoken')
-const createError = require ('http-errors')
 
 class TeacherController {
     static teacherRegister ( req, res, next ){

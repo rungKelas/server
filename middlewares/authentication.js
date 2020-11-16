@@ -9,6 +9,7 @@ module.exports = function authentication(req, res, next) {
         Student.findByPk(verified.id)
         .then(student => {
             if (!student) {
+
                 throw createError(400, "invalid token")
             }
             req.verified = verified

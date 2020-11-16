@@ -371,7 +371,6 @@ describe('Teacher Routes', () => {
         })
     })
 
-
     describe('POST teacher/course', () => {
         describe('success create course', () => {
             test('should return status 201 and object of course' , (done) => {
@@ -437,7 +436,6 @@ describe('Teacher Routes', () => {
         })
     })
 
-
     describe('POST teacher/quiz', () => {
         describe('success create quiz', () => {
             test('should return status 201 and object of quiz' , (done) => {
@@ -481,7 +479,6 @@ describe('Teacher Routes', () => {
             })
         })
     })
-
 
     describe('POST teacher/question', () => {
         describe('success create question', () => {

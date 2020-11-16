@@ -6,6 +6,7 @@ const authorization = require ('../middlewares/authorization')
 const teacher = require('../models/teacher')
 const getScore = require('../middlewares/getScore')
 const checkTokenRegisterStudent = require('../middlewares/checkTokenRegisterStudent')
+const authentication = require('../middlewares/authentication')
 
 route.post("/register/:token",  checkTokenRegisterStudent, StudentController.register)
 route.post("/login", StudentController.login)
