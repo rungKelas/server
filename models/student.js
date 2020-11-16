@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       Student.hasMany(models.Score, {
         foreignKey: 'StudentId',
         sourceKey: 'id'
-    })
+      })
       Student.belongsTo(models.Teacher, { foreignKey: 'id' })
     }
   };

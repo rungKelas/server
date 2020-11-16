@@ -1,21 +1,20 @@
 const { Teacher, Lesson, Course, Quiz, Question } = require ('../models')
 const bcryptjs = require ('bcryptjs')
 const jwt = require ('jsonwebtoken')
+const createError = require ('http-errors')
 
 class TeacherController {
     static teacherRegister ( req, res, next ){
-        const { name, address, birthdate, email, password, role } = req.body
+        const { name, address, birthdate, email, password } = req.body
         Teacher
             .create({
                 name,
                 address,
                 birthdate: birthdate,
                 email,
-                password,
-                role
+                password
             })
             .then(teacher => {
-                
                 res.status(201).json({ teacher })
             })
             .catch( err => {
@@ -138,32 +137,45 @@ class TeacherController {
     }
 
     static editQuestions (req, res, next) {
-        const { questions, choices, answer } = req.body
-        const { id } = req.params
+        const { question, choices, answer } = req.body
+        const { questionId } = req.params
         Question
             .update({
-                questions,
+                question,
                 choices,
                 answer
             }, { where: {
-                id
+                id : questionId
             }})
             .then(_ => {
                 res.status(200).json({
                     message: `success edit question`
                 })
             })
+            .catch(err => {
+                next(err)
+            })
     }
 
     static deleteQuiz (req, res, next ){
-        Quiz
-            .destryo({
+        const { questionId } = req.params
+        Question
+            .destroy({
                 where: {
-                    teacherId : req.decodedUser.id
+                    id : questionId
                 }
             })
-            .then(( { data }) => {
-                res.status(200).json(data)
+            .then( data => {
+                if (!data) {
+                    throw {
+                        name: "NotFoundError"
+                    }
+                } else {
+                    res.status(200).json({
+                        message: `success delete question`
+                    })
+                }
+
             })
             .catch( err => {
                 next (err)

@@ -8,8 +8,7 @@ let dataStudent = {
     address: "Jakarta",
     birthdate: "1-1-1444",
     email: "deadea@mail.com",
-    password: "444444",
-    TeacherId: '1'
+    password: "444444"
 }
 
 let dataTeacher = {
@@ -25,6 +24,7 @@ let newLesson
 let newCourse
 let newQuiz
 let newQuestion
+let dataTeach = null
 
 beforeAll(done => {
     Teacher.create(dataTeacher)
@@ -33,7 +33,7 @@ beforeAll(done => {
             token = jwt.sign({
             id: teacher.id,
             email: teacher.email
-        }, process.env.JWT_TEACHER)
+        }, `secret`)
         return Student.create(dataStudent)
     })
     .then(data => {
@@ -68,8 +68,8 @@ beforeAll(done => {
         })
     })
     .then(question => {
-        newQuestion = question
         done()
+        newQuestion = question
     })
     .catch(err => {
         done(err)
@@ -112,6 +112,7 @@ afterAll(done => {
 
 describe('Register Student', () => {
     describe('Success Register Student', () => {
+        console.log(newTeacher, `<<<<<<<< ini data techer`)
         test('Should return status 201 and Object Student', (done) => {
             request(app)
             .post('/register/'+token)

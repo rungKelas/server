@@ -562,8 +562,126 @@ describe('Teacher Routes', () => {
                             done(err)
                         } else {
                             const data = response.body
-                            expect(400)
+                            expect(response.status).toBe(400)
                             expect(data).toHaveProperty("message", "answer cannot be empty")
+                            done()
+                        }
+                    })
+            })
+        })
+    })
+
+    describe("PUT /teacher/question", () => {
+        describe("success edit question", () => {
+            test("should return 200 and message success edit", (done) => {
+                request(app)
+                    .put("/teacher/question/" + questionId)
+                    .send({
+                        question: "siapa nama presiden ke 2 indonesia?",
+                        choices: ["Soekarno", "Hatta", "Soeharto", "Abdurahman Wahhid"],
+                        answer: "Soeharto"
+                    })
+                    .end( (err, response) => {
+                        if (err) {
+                            done(err)
+                        } else {
+                            expect(response.status).toBe(200)
+                            expect(response.body).toHaveProperty("message", "success edit question")
+                            done()
+                        }
+                    })
+            })
+        })
+
+        describe("failed edit question", () => {
+            test("should return 400 and error message", (done) => {
+                request(app)
+                    .put("/teacher/question/" + questionId)
+                    .send({
+                        question: "",
+                        choices: ["Soekarno", "Hatta", "Soeharto", "Abdurahman Wahhid"],
+                        answer: "Soeharto"
+                    })
+                    .end( (err, response) => {
+                        if (err) {
+                            done(err)
+                        } else {
+                            expect(response.status).toBe(400)
+                            expect(response.body).toHaveProperty("message", "question cannot be empty")
+                            done()
+                        }
+                    })
+            })
+
+            test("should return 400 and error message", (done) => {
+                request(app)
+                    .put("/teacher/question/" + questionId)
+                    .send({
+                        question: "Siapa nama presiden ke 2 Indonesia?",
+                        choices: [],
+                        answer: "Soeharto"
+                    })
+                    .end( (err, response) => {
+                        if (err) {
+                            done(err)
+                        } else {
+                            expect(response.status).toBe(400)
+                            expect(response.body).toHaveProperty("message", "choices cannot be empty")
+                            done()
+                        }
+                    })
+            })
+
+            test("should return 400 and error message", (done) => {
+                request(app)
+                    .put("/teacher/question/" + questionId)
+                    .send({
+                        question: "Siapa nama presiden ke 2 Indonesia?",
+                        choices: ["Soekarno", "Hatta", "Soeharto", "Abdurahman Wahhid"],
+                        answer: ""
+                    })
+                    .end( (err, response) => {
+                        if (err) {
+                            done(err)
+                        } else {
+                            expect(response.status).toBe(400)
+                            expect(response.body).toHaveProperty("message", "answer cannot be empty")
+                            done()
+                        }
+                    })
+            })
+
+
+        })
+    })
+
+    describe("DELETE /teacher/question", () => {
+        describe("success delete question", () => {
+            test("should return 200 and message success delete question", (done) => {
+                request(app)
+                    .delete("/teacher/question/" + questionId)
+                    .end( (err, response) => {
+                        if (err) {
+                            done(err)
+                        } else {
+                            expect(response.status).toBe(200)
+                            expect(response.body).toHaveProperty("message", "success delete question")
+                            done()
+                        }
+                    })
+            })
+        })
+
+        describe("failed delete question", () => {
+            test("should return 400 and message error not found", (done) => {
+                request(app)
+                    .delete("/teacher/question/" + 1000)
+                    .end( (err, response) => {
+                        if (err) {
+                            done(err)
+                        } else {
+                            expect(response.status).toBe(400)
+                            expect(response.body).toHaveProperty("message", "NotFoundError")
                             done()
                         }
                     })
