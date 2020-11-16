@@ -20,6 +20,8 @@ route.post("/teacher/lesson/:teacherId", TeacherController.createLesson)
 route.post("/teacher/course/:lessonId", TeacherController.createCourse)
 route.post("/teacher/quiz/:courseId", TeacherController.createQuiz)
 route.post("/teacher/question/:quizId", TeacherController.createQuestion)
+route.put ("/teacher/question/:questionId", TeacherController.editQuestions)
+route.delete("/teacher/question/:questionId", TeacherController.deleteQuiz)
 
 
 

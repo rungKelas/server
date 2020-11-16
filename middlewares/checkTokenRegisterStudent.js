@@ -4,7 +4,7 @@ const createError = require('http-errors')
 
 module.exports = function checkTokenRegisterStudent(req, res, next) {
     const token = req.params.token
-    const verified = jwt.verify(token, process.env.JWT_TEACHER)
+    const verified = jwt.verify(token, `secret`)
     Teacher.findByPk(verified.id)
     .then(teacher => {
         if (!teacher) {

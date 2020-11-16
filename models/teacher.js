@@ -6,16 +6,13 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Teacher extends Model {
     static associate(models) {
-<<<<<<< HEAD
       // define association here
     //   Teacher.hasMany(models.Student,{
     //     foreignKey: 'TeacherId',
     //     sourceKey: 'id'
     // })
-=======
       Teacher.hasMany(models.Student)
       Teacher.hasMany(models.Lesson)
->>>>>>> development
     }
   };
   Teacher.init({
