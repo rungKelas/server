@@ -24,7 +24,6 @@ let newLesson
 let newCourse
 let newQuiz
 let newQuestion
-let dataTeach = null
 
 beforeAll(done => {
     Teacher.create(dataTeacher)
@@ -33,7 +32,7 @@ beforeAll(done => {
             token = jwt.sign({
             id: teacher.id,
             email: teacher.email
-        }, `secret`)
+        }, process.env.JWT_SECRET)
         return Student.create(dataStudent)
     })
     .then(data => {
@@ -110,9 +109,8 @@ afterAll(done => {
     })
 })
 
-describe('Register Student', () => {
+describe.only('Register Student', () => {
     describe('Success Register Student', () => {
-        console.log(newTeacher, `<<<<<<<< ini data techer`)
         test('Should return status 201 and Object Student', (done) => {
             request(app)
             .post('/register/'+token)
