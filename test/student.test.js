@@ -109,7 +109,7 @@ afterAll(done => {
     })
 })
 
-describe.only('Register Student', () => {
+describe('Register Student', () => {
     describe('Success Register Student', () => {
         test('Should return status 201 and Object Student', (done) => {
             request(app)
