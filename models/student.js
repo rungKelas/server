@@ -102,7 +102,7 @@ module.exports = (sequelize, DataTypes) => {
         teacher.password = hash
       },
       beforeValidate(teacher){
-        if (teacher.role == null || teacher.role == ''){
+        if (!teacher.role){
           teacher.role = "student"
         }
       }

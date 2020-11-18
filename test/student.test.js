@@ -2,7 +2,7 @@ const request = require('supertest')
 const app = require('../app')
 const { Student, Teacher, Lesson, Course, Quiz, Question, Score } = require('../models')
 const jwt = require('jsonwebtoken')
-let token
+
 let dataStudent = {
     name: "dea",
     address: "Jakarta",
@@ -24,15 +24,18 @@ let newLesson
 let newCourse
 let newQuiz
 let newQuestion
+let code
 
 beforeAll(done => {
     Teacher.create(dataTeacher)
     .then(teacher => {
         newTeacher = teacher
-            token = jwt.sign({
+            let token = jwt.sign({
             id: teacher.id,
             email: teacher.email
         }, process.env.JWT_SECRET)
+        let decode = jwt.verify(token, process.env.JWT_SECRET)
+        code = decode.iat+"ID"+decode.id
         return Student.create(dataStudent)
     })
     .then(data => {
@@ -76,10 +79,10 @@ beforeAll(done => {
 })
 
 afterAll(done => {
-    Student.destroy({ truncate: { cascade: true } })
+    Teacher.destroy({ truncate: { cascade: true } })
     .then(_=> {
         done()
-       return Teacher.destroy({ truncate: { cascade: true }  })
+       return Student.destroy({ truncate: { cascade: true }  })
     })
     .then(_=> {
         done()
@@ -113,7 +116,7 @@ describe('Register Student', () => {
     describe('Success Register Student', () => {
         test('Should return status 201 and Object Student', (done) => {
             request(app)
-            .post('/register/'+token)
+            .post('/register/'+code)
             .send({
                 name: "Andri",
                 address: "Jakarta",
@@ -135,9 +138,10 @@ describe('Register Student', () => {
     })
 
     describe('Fail Register Student', () => {
+
         test('Should return status 400, email already used', (done) => {
             request(app)
-            .post('/register/'+token)
+            .post('/register/'+code)
             .send({
                 name: "Andri",
                 address: "Jakarta",
@@ -149,7 +153,7 @@ describe('Register Student', () => {
                 if (err)throw err;
                 else{
                     expect(res.status).toBe(400);
-                    expect(res.body).toHaveProperty("message", "email already used")
+                    expect(res.body).toHaveProperty("message", "email must be unique")
                     done()
                 }
             })
@@ -157,7 +161,7 @@ describe('Register Student', () => {
 
         test('Should return status 400, message name is require', (done) => {
             request(app)
-            .post('/register/'+token)
+            .post('/register/'+code)
             .send({
                 name: "",
                 address: "Jakarta",
@@ -177,7 +181,7 @@ describe('Register Student', () => {
 
         test('Should return status 400, message address is require', (done) => {
             request(app)
-            .post('/register/'+token)
+            .post('/register/'+code)
             .send({
                 name: "Andri",
                 address: "",
@@ -197,7 +201,7 @@ describe('Register Student', () => {
 
         test('Should return status 400, message birthdate is require', (done) => {
             request(app)
-            .post('/register/'+token)
+            .post('/register/'+code)
             .send({
                 name: "Andri",
                 address: "Jakarta",
@@ -217,7 +221,7 @@ describe('Register Student', () => {
 
         test('Should return status 400, message invalid email format', (done) => {
             request(app)
-            .post('/register/'+token)
+            .post('/register/'+code)
             .send({
                 name: "Andri",
                 address: "Jakarta",
@@ -237,7 +241,7 @@ describe('Register Student', () => {
 
         test('Should return status 400, message password is require or should be 5 and 32 characters', (done) => {
             request(app)
-            .post('/register/'+token)
+            .post('/register/'+code)
             .send({
                 name: "Andri",
                 address: "Jakarta",
@@ -250,6 +254,26 @@ describe('Register Student', () => {
                 else{
                     expect(res.status).toBe(400);
                     expect(res.body).toHaveProperty("message", "password should be 5 and 32 characters")
+                    done()
+                }
+            })
+        })
+
+        test('Should return status 400, message token is invalid', (done) => {
+            request(app)
+            .post('/register/000000000')
+            .send({
+                name: "Andri",
+                address: "Jakarta",
+                birthdate: "1-1-1444",
+                email: "a44@mail.com",
+                password: "",
+            })
+            .end((err, res) => {
+                if (err)throw err;
+                else{
+                    expect(res.status).toBe(400);
+                    expect(res.body).toHaveProperty("message", "invalid token")
                     done()
                 }
             })
@@ -318,10 +342,7 @@ describe('Get Lesson', () => {
     describe('Success find  all lesson', () => {
         test('Should return status 200 and return array of object', (done) => {
             request(app)
-            .get(`/lessons`)
-            .send({
-                TeacherId: newTeacher.id
-            })
+            .get(`/lessons/${newTeacher.id}`)
             .end((err, res) =>{
                 if (err)throw err;
                 else {
@@ -335,10 +356,7 @@ describe('Get Lesson', () => {
     describe('Fail find  all lesson', () => {
         test('Should return status 400', (done) => {
             request(app)
-            .get(`/lessons`)
-            .send({
-                TeacherId: newTeacher.id+1
-            })
+            .get(`/lessons/${newTeacher.id+1}`)
             .end((err, res) =>{
                 if (err)throw err;
                 else {
@@ -355,7 +373,7 @@ describe('Get Course', () => {
     describe('Success get course', () => {
         test('Should return status 200 and object', (done) => {
             request(app)
-            .get(`/lessons/${newLesson.id}`)
+            .get(`/courses/${newLesson.id}`)
             .end((err, res) =>{
                 if (err)throw err;
                 else {
@@ -369,7 +387,7 @@ describe('Get Course', () => {
     describe('Fail get course', () => {
         test('Should return status 400 and message not found!', (done) => {
             request(app)
-            .get(`/lessons/${newLesson.id+1}`)
+            .get(`/courses/${newLesson.id+14}`)
             .end((err, res) =>{
                 if (err)throw err;
                 else {
@@ -486,6 +504,27 @@ describe('Answer Question', () => {
             })
         })
     })
+
+    describe('Error Answer', () => {
+        test('should return status 500', (done) => {
+            request(app)
+            .post(`/answer/${newQuestion.id+14}`)
+            .send({
+                answer: newQuestion.answer+"nope" ,
+                StudentId: newStudent.id,
+                QuizId: newQuestion.quizId
+            })
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.status).toBe(500)
+                    done()
+                }
+            })
+        })
+    })
+
 })
 
 describe('Get Scores', () => {
