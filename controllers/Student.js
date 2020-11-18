@@ -1,9 +1,22 @@
-const { Student, Lesson, Quiz, Score, Question } = require('../models')
+const { Student, Lesson, Quiz, Score, Question, Course } = require('../models')
 const jwt = require("jsonwebtoken")
 const bcryptjs = require("bcryptjs")
 const createError = require('http-errors')
 
+
+// SETTINGAN CLOUD ///
+const { Storage } = require ('@google-cloud/storage')
+const GoogleCloud = new Storage({
+    keyFilename: "./platformonlineschool-9af2237cac83.json",
+    projectId: 'platformonlineschool'
+});
+
+const posStorageBucket = GoogleCloud.getBuckets('pos-storage-bucket')
+
+///-------------------------------------------------------------------------------------///
+
 class StudentController{
+    
     static register(req, res, next) {
         const TeacherId = req.verified
         const { name, address, birthdate, email, password } = req.body
@@ -31,19 +44,20 @@ class StudentController{
                 throw createError(400, "invalid email / password")
             } else {
                 const validPassword = bcryptjs.compareSync(password, student.password)
-                console.log(validPassword, `<<<`)
                 if (!validPassword) {
                     throw createError(400, "invalid email / password")
                 }
                 const access_token = jwt.sign({
                     id: student.id,
-                    email: student.email
+                    email: student.email,
+                    
                 }, process.env.JWT_SECRET)
 
                 res.status(200).json({
                     access_token,
-                    email: student.email,
-                    name: student.name
+                    teacherId: student.TeacherId,
+                    name: student.name,
+                    id: student.id
                 })
             }
         })
@@ -53,10 +67,10 @@ class StudentController{
     }
 
     static getLessons(req, res, next) {
-        const { teacherId } = req.body
+        const { teacherId } = req.params
         Lesson.findAll({
             where: {
-                teacherId
+                TeacherId : teacherId
             }
         })
         .then(lessons => {
@@ -72,9 +86,9 @@ class StudentController{
 
     static getCourse(req, res, next) {
         const { lessonId } = req.params
-        Lesson.findOne({
+        Course.findAll({
             where: {
-                id: lessonId
+                LessonId: lessonId
             }
         })
         .then(course => {
@@ -92,8 +106,10 @@ class StudentController{
         const { courseId } = req.params
         Quiz.findAll({
             where: {
-                courseId
-            }
+                CourseId : courseId
+            },
+            include: Question
+            
         })
         .then(quiz => {
             if (quiz.length < 1){
@@ -108,16 +124,18 @@ class StudentController{
     }
 
     static getQuestion(req, res, next) {
+        
         const { quizId } = req.params
         Question.findAll({
             where: {
-                quizId
+                QuizId : quizId
             }
         })
         .then(question => {
             if (question.length < 1){
                 throw createError(400, "not found!")
             }
+            console.log(question)
             res.status(200).json(question)
         })
         .catch(err => {
@@ -149,7 +167,6 @@ class StudentController{
         const { QuestionId } = req.params
         const { answer, StudentId, QuizId } = req.body
         const score = req.score
-        
         Score.create({
             StudentId, answer, score, QuestionId, QuizId
         })
@@ -161,6 +178,36 @@ class StudentController{
         .catch(err => {
             next(err)
         })
+    }
+
+    static getStudent( req, res, next ){ 
+        const id = req.params.studentId
+        Student
+            .findByPk(id)
+            .then(data => {
+                res.status(200).json(data)
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+
+
+    /// STATIC UPLOAD ///
+
+    static async uploadPhoto ( _, { file } ){
+        const { createReadStream, filename } = await file
+
+        await new Promise( res => 
+            createReadStream()
+                .pipe(
+                    posStorageBucket.file(filename).createWriteStream({
+                        resumable: false,
+                        gzip: true,
+                    })
+                )
+                .on("finish", res)
+        )
     }
 
 }

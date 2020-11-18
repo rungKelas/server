@@ -5,26 +5,21 @@ const createError = require('http-errors')
 module.exports = function checkTokenRegisterStudent(req, res, next) {
     const token = req.params.token
     let teacherId = ""
+    let flag = false
     
     for(let i = 0; i < token.length; i++){
-        if (i == token.length-2 || i == token.length-1 ) {
+
+        if(flag) {
             teacherId += token[i]
+        }
+
+        if ( token[i] == 'D') {
+            flag = true
         }
     }
 
+    
     req.verified = teacherId
     next()
-    // const verified = jwt.verify(token, `secret`)
-    // Teacher.findByPk(verified.id)
-    // .then(teacher => {
-    //     if (!teacher) {
-    //         throw createError(400, 'token is invalid')
-    //     } else {
-    //         req.verified = verified
-    //         next()
-    //     }
-    // })
-    // .catch(err => {
-    //     next(err)
-    // })
+
 }

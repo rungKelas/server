@@ -57,7 +57,7 @@ class TeacherController {
     }
 
     static getCode (req, res, next){
-        const code = req.verified.iat + String(req.verified.id)
+        const code = req.verified.iat + 'ID' +String(req.verified.id)
         res.status(201).json({code})
     }
 
@@ -114,6 +114,7 @@ class TeacherController {
     static createQuestion ( req, res, next ){
         const { question, answer, choices } = req.body
         const { quizId } = req.params
+        console.log(quizId, `<<<`, question, answer, choices)
         Question.create({
             QuizId: quizId,
             question,
