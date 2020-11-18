@@ -1,6 +1,7 @@
-const { Teacher, Lesson, Course, Quiz, Question } = require ('../models')
+const { Teacher, Lesson, Course, Quiz, Question, Student } = require ('../models')
 const bcryptjs = require ('bcryptjs')
 const jwt = require ('jsonwebtoken')
+const createError = require('http-errors')
 
 class TeacherController {
     static teacherRegister ( req, res, next ){
@@ -31,33 +32,23 @@ class TeacherController {
             })
             .then(data => {
                 if (!data) {
-                    throw {
-                        name: `email/password is wrong`
-                    }
+                    throw createError(400, `email/password is wrong`)
                 } else {
                     const validatePassword = bcryptjs.compareSync(password, data.password)
-                    if (validatePassword) {
-                        const access_token = jwt.sign({
-                            id: data.id,
-                            email: data.email,
-                            role: data.role
-                        }, process.env.JWT_SECRET)
-                        res.status(200).json({ access_token })
-                    } else {
-                        throw {
-                            name: `email/password is wrong`
-                        }
+                    if (!validatePassword){
+                        throw createError(400, `email/password is wrong`)
                     }
+                    const access_token = jwt.sign({
+                        id: data.id,
+                        email: data.email,
+                        name: data.name
+                    }, process.env.JWT_SECRET)
+                    res.status(200).json({ access_token })
                 }
             })
             .catch( err => {
                 next(err)
             })
-    }
-
-    static getCode (req, res, next){
-        const code = req.verified.iat + String(req.verified.id)
-        res.status(201).json({code})
     }
 
     static createLesson (req, res, next){
@@ -95,11 +86,11 @@ class TeacherController {
 
     static createQuiz (req, res, next){
         const { name } = req.body
-        const { courseId } = req.params
+        const { CourseId } = req.params
         Quiz
             .create({
                 name,
-                CourseId: courseId
+                CourseId
             })
             .then(data => {
                 res.status(201).json(data)
@@ -112,9 +103,9 @@ class TeacherController {
 
     static createQuestion ( req, res, next ){
         const { question, answer, choices } = req.body
-        const { quizId } = req.params
+        const { QuizId } = req.params
         Question.create({
-            QuizId: quizId,
+            QuizId,
             question,
             choices,
             answer
@@ -127,41 +118,6 @@ class TeacherController {
         })
     }
 
-    static getQuestion (req, res, next){
-        const { id } = req.params
-        Question
-            .findOne({
-                id
-            })
-            .then(( { data }) => {
-                res.status(200).json(data)
-            })
-            .catch( err => {
-                next(err)
-            })
-    }
-
-    static editQuestions (req, res, next) {
-        const { question, choices, answer } = req.body
-        const { questionId } = req.params
-        Question
-            .update({
-                question,
-                choices,
-                answer
-            }, { where: {
-                id : questionId
-            }})
-            .then(_ => {
-                res.status(200).json({
-                    message: `success edit question`
-                })
-            })
-            .catch(err => {
-                next(err)
-            })
-    }
-
     static deleteQuiz (req, res, next ){
         const { questionId } = req.params
         Question
@@ -171,15 +127,13 @@ class TeacherController {
                 }
             })
             .then( data => {
-                if (!data) {
-                    throw {
-                        name: "NotFoundError"
-                    }
-                } else {
-                    res.status(200).json({
-                        message: `success delete question`
-                    })
+                if (data === 0) {
+                    throw createError(400, 'data not found')
                 }
+                console.log(data)
+                res.status(200).json({
+                    message: `success delete question`
+                }) 
 
             })
             .catch( err => {
@@ -187,6 +141,51 @@ class TeacherController {
             })
     }
 
+    static showStudent (req, res, next) {
+        const { TeacherId } = req.params
+        Student.findAll({
+            where: {
+                TeacherId
+            }
+        })
+        .then(students => {
+            if (students.length < 1) {
+                throw createError(400, 'not found')
+            }
+            res.status(200).json(students)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
+    static getCourse (req, res, next) {
+        Course.findAll({
+            order: [["id","ASC"]],
+            include: Lesson
+        })
+        .then(course => {
+            res.status(200).json(course)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
+    static getQuiz (req, res, next){
+        Quiz.findAll({
+            include: Course
+        })
+        .then(quiz => {
+            if (quiz.length < 1) {
+                throw createError(400, 'not found')
+            }
+            res.status(200).json(quiz)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
 }
 
 

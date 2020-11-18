@@ -38,6 +38,7 @@ describe('Teacher Routes', () => {
             .then(lesson => {
                 done()
                 lessonId = lesson.id
+                
                 return Course.create({
                     name: 'Aljabar',
                     materialUrl: 'http',
@@ -70,7 +71,7 @@ describe('Teacher Routes', () => {
                 done(err)
             })
     })
-
+    
     afterAll( (done) => {
         Teacher
             .destroy({
@@ -268,7 +269,7 @@ describe('Teacher Routes', () => {
                         } else {
                             const data = response.body
                             expect(400)
-                            expect(data).toHaveProperty("message", "email already used")
+                            expect(data).toHaveProperty("message", "email must be unique")
                             done()
                         }
                     })
@@ -278,8 +279,6 @@ describe('Teacher Routes', () => {
         })
 
     })
-
-
 
     describe('POST /login', () => {
         describe('success login', () => {
@@ -323,10 +322,28 @@ describe('Teacher Routes', () => {
                     })
             })
         })
+
+        describe('failed login', () => {
+            test('should return status 400 bad request' , (done) => {
+                request(app)
+                    .post('/teacher/login')
+                    .send({
+                        email: 'egy@mail.com',
+                        password: 'hayu'
+                    })
+                    .end( (err, response) => {
+                        if (err) {
+                            done(err)
+                        } else {
+                            const data = response.body
+                            expect(200)
+                            expect(data).toHaveProperty("message", "email/password is wrong")
+                            done()
+                        }
+                    })
+            })
+        })
     })
-
-
-
 
     describe('POST teacher/lesson', () => {
         describe('success create lesson', () => {
@@ -568,90 +585,6 @@ describe('Teacher Routes', () => {
         })
     })
 
-    describe("PUT /teacher/question", () => {
-        describe("success edit question", () => {
-            test("should return 200 and message success edit", (done) => {
-                request(app)
-                    .put("/teacher/question/" + questionId)
-                    .send({
-                        question: "siapa nama presiden ke 2 indonesia?",
-                        choices: ["Soekarno", "Hatta", "Soeharto", "Abdurahman Wahhid"],
-                        answer: "Soeharto"
-                    })
-                    .end( (err, response) => {
-                        if (err) {
-                            done(err)
-                        } else {
-                            expect(response.status).toBe(200)
-                            expect(response.body).toHaveProperty("message", "success edit question")
-                            done()
-                        }
-                    })
-            })
-        })
-
-        describe("failed edit question", () => {
-            test("should return 400 and error message", (done) => {
-                request(app)
-                    .put("/teacher/question/" + questionId)
-                    .send({
-                        question: "",
-                        choices: ["Soekarno", "Hatta", "Soeharto", "Abdurahman Wahhid"],
-                        answer: "Soeharto"
-                    })
-                    .end( (err, response) => {
-                        if (err) {
-                            done(err)
-                        } else {
-                            expect(response.status).toBe(400)
-                            expect(response.body).toHaveProperty("message", "question cannot be empty")
-                            done()
-                        }
-                    })
-            })
-
-            test("should return 400 and error message", (done) => {
-                request(app)
-                    .put("/teacher/question/" + questionId)
-                    .send({
-                        question: "Siapa nama presiden ke 2 Indonesia?",
-                        choices: [],
-                        answer: "Soeharto"
-                    })
-                    .end( (err, response) => {
-                        if (err) {
-                            done(err)
-                        } else {
-                            expect(response.status).toBe(400)
-                            expect(response.body).toHaveProperty("message", "choices cannot be empty")
-                            done()
-                        }
-                    })
-            })
-
-            test("should return 400 and error message", (done) => {
-                request(app)
-                    .put("/teacher/question/" + questionId)
-                    .send({
-                        question: "Siapa nama presiden ke 2 Indonesia?",
-                        choices: ["Soekarno", "Hatta", "Soeharto", "Abdurahman Wahhid"],
-                        answer: ""
-                    })
-                    .end( (err, response) => {
-                        if (err) {
-                            done(err)
-                        } else {
-                            expect(response.status).toBe(400)
-                            expect(response.body).toHaveProperty("message", "answer cannot be empty")
-                            done()
-                        }
-                    })
-            })
-
-
-        })
-    })
-
     describe("DELETE /teacher/question", () => {
         describe("success delete question", () => {
             test("should return 200 and message success delete question", (done) => {
@@ -678,13 +611,77 @@ describe('Teacher Routes', () => {
                             done(err)
                         } else {
                             expect(response.status).toBe(400)
-                            expect(response.body).toHaveProperty("message", "NotFoundError")
+                            expect(response.body).toHaveProperty("message", "data not found")
                             done()
                         }
                     })
             })
         })
     })
+    
+    describe('Get Course', () => {
+        describe('Success find  course', () => {
+            test('Should return status 200 and return array of object', (done) => {
+                request(app)
+                .get(`/teacher/course`)
+                .end((err, res) =>{
+                    if (err)throw err;
+                    else {
+                        expect(res.status).toBe(200);
+                        expect.arrayContaining()
+                        done()
+                    }
+                })
+            })
+        })
+    })
 
+    describe('Get Quiz', () => {
+        describe('Success find quiz', () => {
+            test('Should return status 200 and return array of object', (done) => {
+                request(app)
+                .get(`/teacher/quiz`)
+                .end((err, res) =>{
+                    if (err)throw err;
+                    else {
+                        expect(res.status).toBe(200);
+                        expect.arrayContaining()
+                        done()
+                    }
+                })
+            })
+        })
+
+        describe('Fail find quiz', () => {
+            test('Should return status 404 ', (done) => {
+                request(app)
+                .get(`/teacher/quizz`)
+                .end((err, res) =>{
+                    if (err)throw err;
+                    else {
+                        expect(res.status).toBe(404);
+                        done()
+                    }
+                })
+            })
+        })
+    })
+
+    describe('Get Students', () => {
+        describe('Fail find  all student', () => {
+            test('Should return status 400', (done) => {
+                request(app)
+                .get(`/teacher/student-list/${teacherId}`)
+                .end((err, res) =>{
+                    if (err)throw err;
+                    else {
+                        expect(res.status).toBe(400);
+                        expect(res.body).toHaveProperty("message", "not found")
+                        done()
+                    }
+                })
+            })
+        })
+    })
 
 } )
