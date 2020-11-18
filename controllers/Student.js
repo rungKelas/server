@@ -18,7 +18,7 @@ const posStorageBucket = GoogleCloud.getBuckets('pos-storage-bucket')
 class StudentController{
     
     static register(req, res, next) {
-        const TeacherId = req.verified
+        const TeacherId  = req.verified
         const { name, address, birthdate, email, password } = req.body
         Student.create({
             name, address, birthdate, email, password, TeacherId
@@ -55,8 +55,9 @@ class StudentController{
 
                 res.status(200).json({
                     access_token,
-                    teacherId: student.TeacherId,
+                    email: student.email,
                     name: student.name,
+                    TeacherId: student.TeacherId,
                     id: student.id
                 })
             }
@@ -67,11 +68,12 @@ class StudentController{
     }
 
     static getLessons(req, res, next) {
-        const { teacherId } = req.params
+        const { TeacherId } = req.params
         Lesson.findAll({
             where: {
-                TeacherId : teacherId
-            }
+                TeacherId
+            },
+            include: Course
         })
         .then(lessons => {
             if (lessons.length < 1){
@@ -85,14 +87,15 @@ class StudentController{
     }
 
     static getCourse(req, res, next) {
-        const { lessonId } = req.params
+        const { LessonId } = req.params
         Course.findAll({
             where: {
-                LessonId: lessonId
-            }
+                LessonId
+            },
+            include: Lesson
         })
         .then(course => {
-            if (!course){
+            if (course.length < 1){
                 throw createError(400, "not found!")
             }
             res.status(200).json(course)
@@ -103,13 +106,12 @@ class StudentController{
     }
 
     static getQuiz(req, res, next) {
-        const { courseId } = req.params
+        const { CourseId } = req.params
         Quiz.findAll({
             where: {
-                CourseId : courseId
+                CourseId
             },
             include: Question
-            
         })
         .then(quiz => {
             if (quiz.length < 1){
@@ -124,11 +126,10 @@ class StudentController{
     }
 
     static getQuestion(req, res, next) {
-        
-        const { quizId } = req.params
+        const { QuizId } = req.params
         Question.findAll({
             where: {
-                QuizId : quizId
+                QuizId
             }
         })
         .then(question => {
@@ -152,7 +153,6 @@ class StudentController{
             }
         })
         .then(scores => {
-            console.log(scores)
             if (scores.length < 1){
                 throw createError(400, "not found!")
             }
@@ -171,9 +171,25 @@ class StudentController{
             StudentId, answer, score, QuestionId, QuizId
         })
         .then(score => {
+            console.log(score)
             res.status(200).json({
                 score: score.score
             })
+            console.log(score)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
+    static getStudent(req, res, next) {
+        const { id } = req.params
+        Student.findByPk(id)
+        .then(student => {
+            if(!student) {
+                throw createError(400, "not found")
+            }
+            res.status(200).json(student)
         })
         .catch(err => {
             next(err)

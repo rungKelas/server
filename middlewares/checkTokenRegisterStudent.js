@@ -1,12 +1,9 @@
-const jwt = require('jsonwebtoken')
-const { Teacher } = require('../models')
-const createError = require('http-errors')
-
 module.exports = function checkTokenRegisterStudent(req, res, next) {
     const token = req.params.token
     let teacherId = ""
     let flag = false
-    
+    const createError = require('http-errors')
+
     for(let i = 0; i < token.length; i++){
 
         if(flag) {
@@ -18,8 +15,10 @@ module.exports = function checkTokenRegisterStudent(req, res, next) {
         }
     }
 
-    
-    req.verified = teacherId
-    next()
-
+    if (teacherId.length < 1) {
+        next(createError(400, "invalid token"))
+    } else {
+        req.verified = teacherId
+        next()
+    }
 }
