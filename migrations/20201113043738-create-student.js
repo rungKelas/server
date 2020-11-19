@@ -30,6 +30,12 @@ module.exports = {
       TeacherId: {
         type: Sequelize.INTEGER
       },
+      imageUrl: {
+        type: Sequelize.STRING
+      },
+      teacherNote: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'id'
       })
       Student.belongsTo(models.Teacher, { foreignKey: 'id' })
+      Student.hasMany(models.Score, { foreignKey: 'id' })
     }
   };
   Student.init({
@@ -91,6 +92,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     role: DataTypes.STRING,
+    imageUrl: DataTypes.STRING,
+    teacherNote: DataTypes.STRING,
     TeacherId: DataTypes.INTEGER
   }, {
     sequelize,

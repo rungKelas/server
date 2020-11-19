@@ -12,7 +12,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Score.belongsTo(models.Quiz)
       Score.belongsTo(models.Student, { foreignKey: 'id' })
+      Score.belongsTo(models.Lesson)
     }
   };
   Score.init({
@@ -20,7 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     QuizId: DataTypes.INTEGER,
     QuestionId: DataTypes.INTEGER,
     answer: DataTypes.STRING,
-    score: DataTypes.INTEGER
+    score: DataTypes.INTEGER,
+    status: DataTypes.STRING,
+    LessonId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Score',

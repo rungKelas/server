@@ -3,22 +3,10 @@ const jwt = require("jsonwebtoken")
 const bcryptjs = require("bcryptjs")
 const createError = require('http-errors')
 
-
-// SETTINGAN CLOUD ///
-const { Storage } = require ('@google-cloud/storage')
-const GoogleCloud = new Storage({
-    keyFilename: "./platformonlineschool-9af2237cac83.json",
-    projectId: 'platformonlineschool'
-});
-
-const posStorageBucket = GoogleCloud.getBuckets('pos-storage-bucket')
-
-///-------------------------------------------------------------------------------------///
-
 class StudentController{
     
     static register(req, res, next) {
-        const TeacherId  = req.verified
+        const {TeacherId}  = req.params
         const { name, address, birthdate, email, password } = req.body
         Student.create({
             name, address, birthdate, email, password, TeacherId
@@ -136,7 +124,6 @@ class StudentController{
             if (question.length < 1){
                 throw createError(400, "not found!")
             }
-            console.log(question)
             res.status(200).json(question)
         })
         .catch(err => {
@@ -150,7 +137,8 @@ class StudentController{
         Score.findAll({
             where: {
                 StudentId
-            }
+            },
+            include: [Quiz, Lesson]
         })
         .then(scores => {
             if (scores.length < 1){
@@ -165,17 +153,21 @@ class StudentController{
 
     static answer(req, res, next) {
         const { QuestionId } = req.params
-        const { answer, StudentId, QuizId } = req.body
+        const { answer, StudentId, QuizId, LessonId } = req.body
         const score = req.score
         Score.create({
-            StudentId, answer, score, QuestionId, QuizId
+            StudentId, 
+            answer, 
+            score, 
+            QuestionId, 
+            QuizId,
+            LessonId,
+            status: 'completed'
         })
         .then(score => {
-            console.log(score)
             res.status(200).json({
                 score: score.score
             })
-            console.log(score)
         })
         .catch(err => {
             next(err)
@@ -197,7 +189,8 @@ class StudentController{
     }
 
     static getStudent( req, res, next ){ 
-        const id = req.params.studentId
+        const {id} = req.params
+        console.log(id)
         Student
             .findByPk(id)
             .then(data => {
@@ -208,22 +201,40 @@ class StudentController{
             })
     }
 
+    static getAllStudents (req, res, next) {
+        const { TeacherId } = req.params
+        console.log(TeacherId, `<<<<<<<<<<<<<<`)
+        Student
+            .findAll({
+                where: {
+                    TeacherId
+                },
+                include: Score
+            })
+            .then(data => {
+                res.status(200).json(data)
+            })
+            .catch( err => {
+                next(err)
+            })
+    }
 
-    /// STATIC UPLOAD ///
-
-    static async uploadPhoto ( _, { file } ){
-        const { createReadStream, filename } = await file
-
-        await new Promise( res => 
-            createReadStream()
-                .pipe(
-                    posStorageBucket.file(filename).createWriteStream({
-                        resumable: false,
-                        gzip: true,
-                    })
-                )
-                .on("finish", res)
-        )
+    static async totalQuestion(req, res, next){
+        const { StudentId } = req.params
+        const QuizId = req.query.Quiz
+        
+        console.log(QuizId, `ini quiz`)
+        try {
+            const { count } = await Score.findAndCountAll({
+                where: {
+                  StudentId,
+                  QuizId
+                }
+            });
+            res.status(200).json(count)
+        } catch (error) {
+            next(error)
+        }
     }
 
 }
